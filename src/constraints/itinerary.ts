@@ -1,0 +1,48 @@
+import { ItineraryItem } from "@/types/ItineraryType.interface";
+
+export const itinerary: ItineraryItem[] = [
+  {
+    id: "day-1",
+    imageSrc: "/card1.png",
+    imageWidth: 240,
+    imageHeight: 300,
+    tagLabel: "Day 1",
+    title: "Fushimi Inari & Southern Higashiyama",
+    description: "Early torii hike, tea ceremony, sunset at Kiyomizu-dera",
+    cost: "8 hrs | $35",
+    rateValue: "4.7",
+  },
+  {
+    id: "day-2",
+    imageSrc: "/card2.png",
+    imageWidth: 240,
+    imageHeight: 300,
+    tagLabel: "Day 2",
+    title: "Arashiyama Day",
+    description: "Bamboo grove, river walk, monkey park, tofu lunch",
+    cost: "6 hrs | $28",
+    rateValue: "4.8",
+  },
+  {
+    id: "day-3",
+    imageSrc: "/card3.png",
+    imageWidth: 240,
+    imageHeight: 300,
+    tagLabel: "Day 3",
+    title: "Gion & Downtown Kyoto",
+    description: "Yasaka shrine, Nishiki market bites, coffee crawl",
+    cost: "5 hrs | $22",
+    rateValue: "4.6",
+  },
+  {
+    id: "day-4",
+    imageSrc: "/card4.png",
+    imageWidth: 240,
+    imageHeight: 300,
+    tagLabel: "Day 4",
+    title: "Chasing the Most Breathtaking Sunsets",
+    description: "Uluwatu cliffs, Tanah Lot temple, and hidden beaches",
+    cost: "7 hrs | $40",
+    rateValue: "4.9",
+  },
+];

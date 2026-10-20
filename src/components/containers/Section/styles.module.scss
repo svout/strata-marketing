@@ -1,0 +1,23 @@
+@use "@/styles/variables" as *;
+
+.section {
+  width: 100%;
+  position: relative;
+  background-color: #fefefe;
+
+  &.paddings {
+    padding: 40px 0;
+  }
+}
+
+[data-theme="light"] {
+  .section {
+    background-color: var(--color-bg);
+  }
+}
+
+[data-theme="dark"] {
+  .section {
+    background-color: var(--color-bg);
+  }
+}

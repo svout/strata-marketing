@@ -1,0 +1,102 @@
+@use "./variables" as *;
+@use "./fonts.scss";
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  scroll-behavior: unset;
+  overscroll-behavior: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100vh;
+  overscroll-behavior: none;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+:root {
+  --color-bg: #1e1e1e;
+  --color-surface: #fefefe;
+  --color-text: #fefefe;
+  --color-stroke: #edf1f333;
+  --color-dark: #ffffff05;
+  --color-toggle: #3e3e3e;
+  --color-description: #606060;
+  --color-descriptionMob: #606060;
+  --color-save: #606060;
+}
+
+[data-theme="light"] {
+  --color-bg: #fefefe;
+  --color-surface: #fefefe;
+  --color-text: #1e1e1e;
+  --color-toggle: #3e3e3e;
+  --color-description: #606060;
+  --color-descriptionMob: #606060;
+  --color-save: #606060;
+}
+
+[data-theme="dark"] {
+  --color-bg: #161616;
+  --color-surface: #1e1e1e;
+  --color-text: #fefefe;
+  --color-toggle: #edf1f333;
+  --color-description: #eaeaea;
+  --color-descriptionMob: #939393;
+  --color-save: #FEFEFE;
+}
+
+#__next {
+  width: 100%;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: clip;
+}
+
+@supports not (overflow-x: clip) {
+  body {
+    overflow-x: hidden;
+  }
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+}
+
+a,
+a:visited,
+a:active,
+a:focus {
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+}
+
+input {
+  -webkit-user-modify: read-write-plaintext-only;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+.layout {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  @include phone {
+    position: fixed;
+    overflow-y: auto;
+    height: 100%;
+    height: calc(100% - 1px);
+  }
+}

@@ -1,0 +1,202 @@
+@use "sass:list";
+@use "sass:map";
+
+$font-sets: (
+  "Poppins": (
+    "path": "./fonts/Poppins",
+    "fonts": (
+      "Poppins-Thin": (
+        100,
+        normal,
+      ),
+      "Poppins-ThinItalic": (
+        100,
+        italic,
+      ),
+      "Poppins-ExtraLight": (
+        200,
+        normal,
+      ),
+      "Poppins-ExtraLightItalic": (
+        200,
+        italic,
+      ),
+      "Poppins-Light": (
+        300,
+        normal,
+      ),
+      "Poppins-LightItalic": (
+        300,
+        italic,
+      ),
+      "Poppins-Regular": (
+        400,
+        normal,
+      ),
+      "Poppins-Italic": (
+        400,
+        italic,
+      ),
+      "Poppins-Medium": (
+        500,
+        normal,
+      ),
+      "Poppins-MediumItalic": (
+        500,
+        italic,
+      ),
+      "Poppins-SemiBold": (
+        600,
+        normal,
+      ),
+      "Poppins-SemiBoldItalic": (
+        600,
+        italic,
+      ),
+      "Poppins-Bold": (
+        700,
+        normal,
+      ),
+      "Poppins-BoldItalic": (
+        700,
+        italic,
+      ),
+      "Poppins-ExtraBold": (
+        800,
+        normal,
+      ),
+      "Poppins-ExtraBoldItalic": (
+        800,
+        italic,
+      ),
+      "Poppins-Black": (
+        900,
+        normal,
+      ),
+      "Poppins-BlackItalic": (
+        900,
+        italic,
+      ),
+    ),
+  ),
+  "OpenSans": (
+    "path": "./fonts/OpenSans",
+    "fonts": (
+      "OpenSans-Light": (
+        300,
+        normal,
+      ),
+      "OpenSans-LightItalic": (
+        300,
+        italic,
+      ),
+      "OpenSans-Regular": (
+        400,
+        normal,
+      ),
+      "OpenSans-Italic": (
+        400,
+        italic,
+      ),
+      "OpenSans-Medium": (
+        500,
+        normal,
+      ),
+      "OpenSans-MediumItalic": (
+        500,
+        italic,
+      ),
+      "OpenSans-SemiBold": (
+        600,
+        normal,
+      ),
+      "OpenSans-SemiBoldItalic": (
+        600,
+        italic,
+      ),
+      "OpenSans-Bold": (
+        700,
+        normal,
+      ),
+      "OpenSans-BoldItalic": (
+        700,
+        italic,
+      ),
+      "OpenSans-ExtraBold": (
+        800,
+        normal,
+      ),
+      "OpenSans-ExtraBoldItalic": (
+        800,
+        italic,
+      ),
+    ),
+  ),
+  "Outfit": (
+    "path": "./fonts/Outfit",
+    "fonts": (
+      "Outfit-Thin": (
+        100,
+        normal,
+      ),
+      "Outfit-ExtraLight": (
+        200,
+        normal,
+      ),
+      "Outfit-Light": (
+        300,
+        normal,
+      ),
+      "Outfit-Regular": (
+        400,
+        normal,
+      ),
+      "Outfit-Medium": (
+        500,
+        normal,
+      ),
+      "Outfit-SemiBold": (
+        600,
+        normal,
+      ),
+      "Outfit-Bold": (
+        700,
+        normal,
+      ),
+      "Outfit-ExtraBold": (
+        800,
+        normal,
+      ),
+      "Outfit-Black": (
+        900,
+        normal,
+      ),
+    ),
+  ),
+);
+
+@each $font-family, $meta in $font-sets {
+  $path: map.get($meta, "path");
+  $fonts: map.get($meta, "fonts");
+
+  @each $file, $props in $fonts {
+    $weight: list.nth($props, 1);
+    $style: list.nth($props, 2);
+
+    @font-face {
+      font-family: "#{$font-family}";
+      font-style: $style;
+      font-weight: $weight;
+      font-display: swap;
+
+      @if $font-family == "WixMadeforDisplay" {
+        src: url("#{$path}/#{$file}.woff2") format("woff2"),
+          url("#{$path}/#{$file}.woff") format("woff");
+      }
+
+      @else {
+        src: url("#{$path}/#{$file}.ttf") format("truetype");
+      }
+    }
+  }
+}

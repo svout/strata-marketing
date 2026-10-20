@@ -1,0 +1,241 @@
+@use "@/styles/variables" as *;
+
+.section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-bg);
+  margin-bottom: 50px;
+
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    background: #00000040;
+    z-index: 5;
+  }
+
+  @include phone {
+    margin-bottom: 20px;
+  }
+
+  .content {
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+    align-items: center;
+    justify-content: space-between;
+    top: 20px;
+    position: relative;
+    z-index: 6;
+
+    @include phone {
+      max-width: 320px;
+      width: 100%;
+    }
+
+    .contentWrapper {
+      display: flex;
+      max-width: 1280px;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+
+      @include phone {
+        top: 20px;
+        max-width: 320px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 6px 0px #0000000f;
+        background: var(--color-bg);
+        height: 60px;
+        border: 1px solid var(--color-stroke);
+        padding: 5px;
+
+        &:has(.mobileMenuOpen) {
+          border-bottom-left-radius: 0;
+          border-bottom-right-radius: 0;
+          border-bottom: none;
+        }
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .menu {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+        border: 1px solid var(--color-stroke);
+        box-shadow: 0px 2px 8px 0px #00000014;
+        padding: 16px 20px;
+        border-radius: 20px;
+        background-color: var(--color-surface);
+
+        .link {
+          font-family: "Poppins", sans-serif;
+          font-weight: 400;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: 0%;
+          vertical-align: middle;
+          color: #606060;
+          text-decoration: none;
+
+          &:hover {
+            font-weight: 600;
+            color: var(--color-text);
+          }
+        }
+        .active {
+          font-weight: 600;
+          color: var(--color-text);
+        }
+      }
+
+      .buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        .button {
+          font-family: "OpenSans", sans-serif;
+          font-weight: 400;
+          font-size: 20px;
+          line-height: 28px;
+          color: #fcfcfc;
+          border-radius: 10px;
+          padding: 10px 40px;
+        }
+      }
+
+      .mobMenuWrapper {
+        .mobileButtons {
+          display: flex;
+          align-items: center;
+
+          .buttonM {
+            font-family: "OpenSans", sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 20px;
+            letter-spacing: -0.32px;
+            vertical-align: middle;
+            color: #fcfcfc;
+            border-radius: 10px;
+            padding: 6px 25px;
+
+            @include phone-min {
+              display: none;
+            }
+          }
+
+          .burgerButton {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            color: var(--color-text);
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #7f61d1;
+            }
+          }
+        }
+
+        .mobileMenu {
+          position: absolute;
+          top: calc(100% - 1px);
+          left: 0;
+          right: 0;
+          background: var(--color-bg);
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          transform-origin: top;
+          transform: scaleY(0);
+          opacity: 0;
+          visibility: hidden;
+          transition: transform 0.25s ease, opacity 0.25s ease,
+            visibility 0.25s ease;
+          will-change: transform, opacity;
+          z-index: 10;
+          border: 1px solid var(--color-stroke);
+          border-top: none;
+
+          &.mobileMenuOpen {
+            transform: scaleY(1);
+            opacity: 1;
+            visibility: visible;
+            max-width: 322px;
+            width: 100%;
+          }
+        }
+
+        .mobileMenuContent {
+          padding: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 20px;
+        }
+
+        .mobileMenuLinks {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+
+          .link {
+            font-family: "Poppins-Regular", sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 24px;
+            letter-spacing: 0%;
+            text-align: center;
+            color: #606060;
+            text-decoration: none;
+            padding: 8px 0;
+            display: block;
+            transition: all 0.3s ease;
+            text-align: center;
+
+            &:hover {
+              font-weight: 600;
+              color: var(--color-text);
+            }
+          }
+
+          .active {
+            font-weight: 600;
+            color: var(--color-text);
+          }
+        }
+
+        .mobileMenuButtons {
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          gap: 10px;
+          padding-top: 10px;
+          border-top: 1px solid #ffffff12;
+          width: 100%;
+
+          .mobileButton {
+            font-family: "OpenSans", sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+            color: #fcfcfc;
+            border-radius: 10px;
+            padding: 12px 30px;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+export const COMPANY = {
+  name: "test",
+  legalName: "test",
+  url: "test",
+  logo: "test",
+  tagline: "test",
+  supportEmail: "test",
+  phone: "test",
+  sameAs: "test",
+  streetAddress: "test",
+  addressLocality: "test",
+  addressRegion: "test",
+  postalCode: "test",
+  addressCountry: "test",
+};

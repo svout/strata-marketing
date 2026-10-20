@@ -1,0 +1,123 @@
+@use "@/styles/variables" as *;
+
+.button {
+  padding: 0;
+  border: 0;
+  outline: none;
+  border-radius: 40px;
+  opacity: 1;
+  overflow: hidden;
+  padding: 1px;
+  transition: 0.25s;
+  flex: none;
+
+  .content {
+    gap: 10px;
+    padding: 14px 40px;
+    transition: 0.25s;
+    display: flex;
+    align-items: center;
+    border-radius: 40px;
+    position: relative;
+    text-align: center;
+  }
+
+  &.default {
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background-color: #ff7b43;
+
+    .label {
+      font-family: Poppins;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0%;
+      color: #fefefe;
+    }
+
+    .content {
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background-color: #ff7b43;
+    }
+
+    &:hover {
+      background-color: #f1652a;
+
+      .content {
+        background-color: #f1652a;
+      }
+    }
+
+    &:active {
+      background-color: #d75822;
+
+      .content {
+        background: #151515;
+        border: 1px solid transparent;
+      }
+    }
+
+    &.disabled {
+      background: #1d1d1d;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  }
+
+  &.white {
+    background-color: transparent;
+    border: 1px solid #ff7b43;
+
+    .label {
+      font-family: Poppins;
+      font-weight: 500;
+      font-style: Medium;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: 0%;
+      color: #ff7b43;
+    }
+
+    .content {
+      background: transparent;
+      border: 1px solid #ff7b43;
+    }
+
+    &:hover {
+      background: #ff7b43;
+      border: 1px solid #ff7b43;
+
+      .label {
+        color: #fefefe;
+      }
+
+      .content {
+        background: #ff7b43;
+        border: 1px solid #ff7b43;
+      }
+    }
+
+    &:active {
+      background: #ff7b43;
+      border: 1px solid #ff7b43;
+
+      .label {
+        color: #fefefe;
+      }
+
+      .content {
+        background: #ff7b43;
+        border: 1px solid #ff7b43;
+      }
+    }
+
+    &.disabled {
+      background: #ABABAB;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  }
+}

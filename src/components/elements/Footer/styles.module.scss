@@ -1,0 +1,15 @@
+@use "@/styles/variables" as *;
+
+.footer {
+    z-index: 2;
+    justify-content: center;
+    width: 100%;
+    padding: 24px 0;
+    display: flex;
+    position: relative;
+    background: #010b24;
+
+    @include phone {
+        flex-direction: column;
+    }
+}

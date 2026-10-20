@@ -1,0 +1,53 @@
+$bg1: #0F0F0F;
+$text: #FCFCFC;
+
+$menuColor: #fff;
+$appButton: #FCFCFC;
+$appButtonText: #010B24;
+
+// --------------------------------------------------
+// Breakpoints for phone, tablet, desktop, large screens
+// --------------------------------------------------
+$breakpoint-phone-min: 370px !default; // up to 320px — phones
+$breakpoint-phone-max: 767px !default; // up to 767px — phones
+$breakpoint-tablet-min: 768px !default; // from 768px — tablets
+$breakpoint-tablet-max: 991px !default; // up to 991px — tablets
+$breakpoint-desktop-min: 992px !default; // from 992px — desktops
+$breakpoint-large-min: 1920px !default; // from 1920px — large screens (Full HD+)
+
+// --------------------------------------------------
+// Миксины для медиа‑запросов
+// --------------------------------------------------
+
+// Стили только для телефонов (≤ 320px)
+@mixin phone-min {
+    @media (max-width: $breakpoint-phone-min) {
+        @content;
+    }
+}
+/// Стили только для телефонов (≤ 767px)
+@mixin phone {
+    @media (max-width: $breakpoint-phone-max) {
+        @content;
+    }
+}
+
+/// Стили только для планшетов (768px–991px)
+@mixin tablet {
+    @media (min-width: $breakpoint-tablet-min) and (max-width: $breakpoint-tablet-max) {
+        @content;
+    }
+}
+
+/// Стили только для десктопов (≥ 992px)
+@mixin desktop {
+    @media (min-width: $breakpoint-desktop-min) {
+        @content;
+    }
+}
+
+@mixin large {
+    @media (min-width: $breakpoint-large-min) {
+        @content;
+    }
+}

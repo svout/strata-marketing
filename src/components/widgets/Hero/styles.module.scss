@@ -1,0 +1,134 @@
+@use "@/styles/variables" as *;
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background-color: var(--color-bg);
+  margin-bottom: 100px;
+
+  .content {
+    display: flex;
+    width: 100%;
+    max-width: 1280px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 32px;
+    position: relative;
+    z-index: 1;
+
+    @include phone {
+      max-width: 320px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 1280px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      gap: 20px;
+      width: 100%;
+      max-width: 900px;
+
+      @include phone {
+        gap: 10px;
+        .titleMask {
+          font-family: "Outfit-Semibold", sans-serif;
+          font-weight: 500;
+          font-style: SemiBold;
+          font-size: 32px;
+          line-height: 40px;
+          letter-spacing: 0%;
+          text-align: center;
+        }
+
+        .description {
+          font-family: Poppins;
+          font-weight: 400;
+          font-style: Regular;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: 0%;
+          text-align: center;
+          max-width: 300px;
+        }
+      }
+
+      .descriptionContainer {
+        max-width: 600px;
+
+        @include phone {
+          max-width: 280px;
+        }
+      }
+
+      .gridBackground {
+        position: absolute;
+        top: -100px;
+        left: 0;
+        width: 100%;
+        height: 700px;
+        z-index: -1;
+
+        @include phone {
+          top: 25px;
+          width: 100%;
+          height: 300px;
+        }
+      }
+    }
+
+    .buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: center;
+
+      @include phone-min {
+        flex-direction: column;
+        gap: 10px;
+        max-width: 150px;
+        width: 100%;
+      }
+
+      .button {
+        width: 100%;
+        max-width: 250px;
+        height: 60px;
+        font-family: "OpenSans", sans-serif;
+        font-weight: 600;
+        font-style: SemiBold;
+        font-size: 20px;
+        line-height: 28px;
+        letter-spacing: -0.32px;
+        color: #fcfcfc;
+
+        @include phone {
+          height: 50px;
+          width: 100%;
+          max-width: 150px;
+          font-family: "OpenSans", sans-serif;
+          font-weight: 600;
+          font-style: SemiBold;
+          font-size: 16px;
+          line-height: 24px;
+          letter-spacing: -0.32px;
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}
