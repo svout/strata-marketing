@@ -1,30 +1,25 @@
-import React, { CSSProperties } from "react";
-import styles from "./styles.module.scss";
+import React from "react";
 import clsx from "clsx";
 
+/** Body copy in the body/lg or body/md text style, muted by default. */
 interface DescriptionProps {
-  description: string;
-  color?: CSSProperties["color"];
-  type: "default" | "small" | "medium" | "large" | "extraSm";
+  children: React.ReactNode;
+  size?: "lg" | "md";
+  muted?: boolean;
   className?: string;
 }
 
-const Description = ({
-  description,
-  color,
-  type = "medium",
-  className,
-}: DescriptionProps) => {
-  return (
-    <div className={styles.descriptionContainer}>
-      <p
-        className={clsx(styles.description, styles[type], className)}
-        style={{ color }}
-      >
-        {description}
-      </p>
-    </div>
-  );
-};
+const Description = ({ children, size = "lg", muted = true, className }: DescriptionProps) => (
+  <p
+    className={clsx(
+      size === "lg" ? "text-body-lg" : "text-body-md",
+      muted ? "text-fg-muted" : "text-fg",
+      "text-pretty",
+      className,
+    )}
+  >
+    {children}
+  </p>
+);
 
 export default Description;

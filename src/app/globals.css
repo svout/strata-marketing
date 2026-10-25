@@ -1,0 +1,323 @@
+/*
+ * Strata design tokens → Tailwind v4 theme + CSS variables.
+ * Source of truth: vault "Design/Design Tokens.md" and "Brand Guidelines.md".
+ * The same hex values live in src/config/tokens.ts for the MUI palette;
+ * change both together.
+ *
+ * Layer order matters: MUI (Emotion) styles go into the `mui` layer
+ * (AppRouterCacheProvider enableCssLayer), so Tailwind utilities, which
+ * come later, can always override a MUI component's default styling.
+ */
+@layer theme, base, mui, components, utilities;
+@import "tailwindcss";
+
+@theme {
+  /* Fonts are loaded with next/font in app/layout.tsx */
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* ── Primitives (Brand Guidelines → Colour) ─────────────────────── */
+  --color-cobalt-50: #f0f3ff;
+  --color-cobalt-100: #dce4ff;
+  --color-cobalt-200: #b9c8ff;
+  --color-cobalt-300: #8fa6ff;
+  --color-cobalt-400: #5e80ff;
+  --color-cobalt-500: #2b59ff;
+  --color-cobalt-600: #2249e8;
+  --color-cobalt-700: #1a38bf;
+  --color-cobalt-900: #0f1f66;
+  --color-ink: #0b0d12;
+  --color-stone: #e9e7e1;
+  --color-paper: #f7f6f2;
+  --color-graphite: #2a2d35;
+  --color-slate: #55575e;
+  --color-mist: #a3a6ae;
+  --color-amber: #f2c14e;
+  --color-mint: #3ccb9f;
+
+  /* Pattern system: pill colour = base + ~8% lightness */
+  --color-pattern-cobalt: #4169ff;
+  --color-pattern-ink: #161b2e;
+  --color-pattern-stone: #e6e3db;
+
+  /* ── Semantic, light mode (Design Tokens → Semantic colours) ────── */
+  --color-canvas: #e9e7e1; /* bg/canvas */
+  --color-surface: #f7f6f2; /* bg/surface */
+  --color-elevated: #ffffff; /* bg/elevated */
+  --color-line: #dedcd5; /* border/default */
+  --color-fg: #0b0d12; /* text/primary */
+  --color-fg-muted: #55575e; /* text/secondary */
+  --color-brand: #2b59ff; /* brand/primary */
+  --color-brand-hover: #2249e8; /* brand/primary-hover */
+  --color-brand-subtle: #dce4ff; /* brand/subtle */
+  --color-brand-on-subtle: #1a38bf; /* brand/on-subtle */
+  --color-approve: #0e8a6a; /* signal/approve */
+  --color-review: #e0a100; /* signal/review */
+  --color-block: #c4262e; /* signal/block */
+  /* Chip tints (Design Tokens → chip tints) */
+  --color-approve-tint: #e3f5ef;
+  --color-approve-fg: #0a6b52;
+  --color-review-tint: #fdf3d7;
+  --color-review-fg: #7a5700;
+  --color-block-tint: #fce4e4;
+  --color-block-fg: #a8232a;
+  --color-recorded-tint: #f0f3ff;
+  --color-recorded-fg: #1a38bf;
+  /* Focus ring: cobalt by default, white on cobalt surfaces */
+  --color-focus: #2b59ff;
+
+  /* ── Text styles. Headline sizes are fluid: the token value is the
+        desktop size, the floor is the W6 (390 px) mock-up size. ───── */
+  --text-display: clamp(2.75rem, 1.2rem + 6.4vw, 5.5rem); /* 44 → 88 */
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.05em;
+  --text-display--font-weight: 600;
+  --text-h1: clamp(2rem, 1.2rem + 3.2vw, 3.5rem); /* 32 → 56 */
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.04em;
+  --text-h1--font-weight: 600;
+  --text-h2: clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem); /* 28 → 36 */
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.03em;
+  --text-h2--font-weight: 600;
+  --text-h3: 1.5rem; /* 24 */
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 600;
+  --text-body-lg: 1.0625rem; /* 17 */
+  --text-body-lg--line-height: 1.5;
+  --text-body-md: 0.875rem; /* 14 */
+  --text-body-md--line-height: 1.5;
+  --text-label: 0.8125rem; /* 13 */
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 600;
+  --text-mono-data: 0.875rem; /* 14 */
+  --text-mono-data--line-height: 1.5;
+  --text-overline: 0.6875rem; /* 11 */
+  --text-overline--line-height: 1.4;
+  --text-overline--letter-spacing: 0.06em;
+  --text-overline--font-weight: 500;
+
+  /* ── Numbers ───────────────────────────────────────────────────── */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-xl: 32px; /* W1 section-scale panels (28–36 px in the mock) */
+  --shadow-card: 0 8px 20px rgb(11 13 18 / 0.08);
+  --shadow-pop: 0 16px 40px rgb(11 13 18 / 0.12);
+  --shadow-panel: 0 40px 90px rgb(11 13 18 / 0.28); /* W1 decision panel */
+
+  /* Motion */
+  --animate-lit: lit 4.2s ease-in-out infinite;
+  --animate-pill-on: pill-on 0.45s ease-out both;
+
+  @keyframes lit {
+    0%,
+    100% {
+      opacity: 0.18;
+    }
+    45%,
+    60% {
+      opacity: 1;
+    }
+  }
+  @keyframes pill-on {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  /*
+   * Section themes. A section sets data-theme and every semantic token
+   * inside it flips, so components never need "on dark" variants.
+   * Dark values = the Dark column of Design Tokens. Dark chip tints come
+   * from the W1 mock-up (ledger card, developer pills).
+   */
+  [data-theme="dark"] {
+    --color-canvas: #0b0d12;
+    --color-surface: #14161c;
+    --color-elevated: #1c1f26;
+    --color-line: #2a2d35;
+    --color-fg: #ffffff;
+    --color-fg-muted: #a3a6ae;
+    --color-brand: #5e80ff;
+    --color-brand-hover: #8fa6ff;
+    --color-brand-subtle: #0f1f66;
+    --color-brand-on-subtle: #b9c8ff;
+    --color-approve: #3ccb9f;
+    --color-review: #f2c14e;
+    --color-block: #ff7a7e;
+    --color-approve-tint: #10322a;
+    --color-approve-fg: #3ccb9f;
+    --color-review-tint: #3a2e0a;
+    --color-review-fg: #f2c14e;
+    --color-block-tint: #3b1518;
+    --color-block-fg: #ff7a7e;
+    --color-recorded-tint: #13204d;
+    --color-recorded-fg: #8fa6ff;
+    color: var(--color-fg);
+  }
+
+  /* The cobalt hero: white text, white focus ring. */
+  [data-theme="cobalt"] {
+    --color-fg: #ffffff;
+    --color-fg-muted: #f0f3ff;
+    --color-focus: #ffffff;
+    color: var(--color-fg);
+  }
+
+  /* A light card placed inside a dark or cobalt section (form card,
+     ledger crop): resets the semantic tokens to light mode. */
+  [data-theme="light"] {
+    --color-canvas: #e9e7e1;
+    --color-surface: #f7f6f2;
+    --color-elevated: #ffffff;
+    --color-line: #dedcd5;
+    --color-fg: #0b0d12;
+    --color-fg-muted: #55575e;
+    --color-brand: #2b59ff;
+    --color-brand-hover: #2249e8;
+    --color-brand-subtle: #dce4ff;
+    --color-brand-on-subtle: #1a38bf;
+    --color-approve: #0e8a6a;
+    --color-review: #e0a100;
+    --color-block: #c4262e;
+    --color-approve-tint: #e3f5ef;
+    --color-approve-fg: #0a6b52;
+    --color-review-tint: #fdf3d7;
+    --color-review-fg: #7a5700;
+    --color-block-tint: #fce4e4;
+    --color-block-fg: #a8232a;
+    --color-recorded-tint: #f0f3ff;
+    --color-recorded-fg: #1a38bf;
+    --color-focus: #2b59ff;
+    color: var(--color-fg);
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 88px; /* fixed header (64–80 px) + breathing room */
+  }
+
+  body {
+    background: var(--color-elevated);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  /* Tabular figures so amounts and ledger IDs line up */
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer utilities {
+  /* Hide visually, keep for screen readers */
+  .sr-only-focusable:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+@layer components {
+  /* Home 03: the board's SVG scales to its container (viewBox 1200 × 795) */
+  .decide-scene svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  /* The SVG names the fonts by family; point them at the next/font faces */
+  .decide-scene [font-family*="Instrument"] {
+    font-family: var(--font-sans);
+  }
+  .decide-scene [font-family*="Plex"] {
+    font-family: var(--font-mono);
+  }
+  /* Reduced-motion still frame: show all three ledger blocks.
+     !important is needed to beat the SMIL-animated opacity. */
+  .decide-scene.is-still .ledger-block {
+    opacity: 1 !important;
+  }
+}
+
+/*
+ * Product · flow diagram (widgets/ProductFlow). One 4.8 s cycle:
+ * dot in (0–20%) → Mandate, Risk, Ledger light up (via animation-delay)
+ * → dot out (72–92%). Reduced motion (rule below) leaves it static.
+ */
+.flow-dot {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  margin-top: -6px;
+  border-radius: 999px;
+  background: var(--color-cobalt-500);
+  box-shadow: 0 0 0 4px var(--color-cobalt-100);
+  opacity: 0;
+}
+.flow-dot-in {
+  animation: flow-dot-in 4.8s linear infinite;
+}
+.flow-dot-out {
+  animation: flow-dot-out 4.8s linear infinite;
+}
+.flow-layer {
+  animation: flow-layer 4.8s ease-in-out infinite;
+}
+@keyframes flow-dot-in {
+  0% { left: 0; opacity: 0; }
+  3% { opacity: 1; }
+  20% { left: calc(100% - 12px); opacity: 1; }
+  23%, 100% { left: calc(100% - 12px); opacity: 0; }
+}
+@keyframes flow-dot-out {
+  0%, 70% { left: 0; opacity: 0; }
+  73% { opacity: 1; }
+  90% { left: calc(100% - 12px); opacity: 1; }
+  93%, 100% { left: calc(100% - 12px); opacity: 0; }
+}
+@keyframes flow-layer {
+  0%, 18%, 100% { background-color: var(--color-cobalt-500); box-shadow: none; }
+  /* Lit: white ring, fill stays cobalt-500 so white text keeps 4.5:1 */
+  5%, 12% { background-color: var(--color-cobalt-500); box-shadow: 0 0 0 3px #ffffff; }
+}
+@media (max-width: 1023px) {
+  .flow-layer { animation: none; }
+}
+
+/* Reduced motion: everything static, lit pills fully on (Pattern system). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .lit-pill {
+    animation: none !important;
+    opacity: 1 !important;
+  }
+}

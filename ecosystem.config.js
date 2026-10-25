@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "next-gondola-react",
+      name: "strata-marketing",
       script: "node_modules/next/dist/bin/next",
       args: "start",
       env: {

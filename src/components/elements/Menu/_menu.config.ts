@@ -1,13 +1,14 @@
 import type { MenuLinkInterface } from "@/types/MenuLink.interface";
+import { COMPANY, isFilled } from "@/config/company";
 
-type MenuConfig = {
-  links: MenuLinkInterface[];
-};
-export const config: MenuConfig = {
+/** Top nav (Marketing Website → Site map): Product · Developers · Security */
+export const config = {
   links: [
-    { label: "Home", href: "/" },
-    { label: "About Us", href: "/about-us" },
-    { label: "Services", href: "/services" },
-    { label: "Project", href: "/project" },
-  ],
+    { label: "Product", href: "/product" },
+    { label: "Developers", href: "/developers" },
+    { label: "Security", href: "/security" },
+  ] satisfies MenuLinkInterface[],
+  // "#" until the console URL ([app.domain]) is filled in config/company.ts
+  signIn: { label: "Sign in", href: isFilled(COMPANY.appUrl) ? COMPANY.appUrl : "#" },
+  cta: { label: "Request demo", href: "/demo" },
 };

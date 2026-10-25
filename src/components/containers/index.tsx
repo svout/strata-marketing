@@ -1,8 +1,7 @@
 import Layout from "./Layout";
-import Modal from "./Modal";
-import { OnLoad } from "./OnLoadWrapper";
-import Relative from "./Relative";
-import Section from "./Section";
+import Section, { containerClass } from "./Section";
+import Providers from "./Providers";
 
-const containers = { Layout, Section, Relative, Modal, OnLoad };
+const containers = { Layout, Section, Providers };
+export { containerClass };
 export default containers;

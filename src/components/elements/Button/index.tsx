@@ -1,38 +1,27 @@
-import React from "react";
-import styles from "./styles.module.scss";
-import clsx from "clsx";
+"use client";
 
-type ButtonInterface = {
-  label: string | React.ReactNode;
-  variant: "default" | "white" | "dark";
-  type?: "submit" | "button";
-  disabled?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  className?: string;
+import NextLink from "next/link";
+import MuiButton, { type ButtonProps as MuiButtonProps } from "@mui/material/Button";
+
+/**
+ * Strata button = MUI Button with the brand variants from the theme
+ * (primary · ink · white · outline · ghost) and the UI-kit sizes
+ * (small 32 · medium 40 · large 48).
+ *
+ * Pass `href` and it renders a Next.js <Link> for internal routes (so
+ * navigation stays client-side) or a plain <a> for external URLs and
+ * "#" placeholders. Either way it is a real link for screen readers.
+ */
+export type ButtonProps = Omit<MuiButtonProps, "href" | "LinkComponent"> & {
+  href?: string;
 };
 
-export const Button = ({
-  label,
-  variant = "default",
-  type = "button",
-  disabled,
-  onClick,
-  className,
-}: ButtonInterface) => {
-  return (
-    <button
-      type={type}
-      className={clsx(
-        styles.button,
-        styles[variant],
-        disabled && styles.disabled,
-        className
-      )}
-      onClick={(e: React.MouseEvent<HTMLButtonElement>) =>
-        !disabled && onClick?.(e)
-      }
-    >
-      <span className={styles.label}>{label}</span>
-    </button>
-  );
-};
+export function Button({ href, ...props }: ButtonProps) {
+  if (href) {
+    const internal = href.startsWith("/");
+    return <MuiButton component={internal ? NextLink : "a"} href={href} {...props} />;
+  }
+  return <MuiButton type="button" {...props} />;
+}
+
+export default Button;
