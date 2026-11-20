@@ -1,27 +1,22 @@
 import type { Metadata } from "next";
 import { Containers } from "@/components";
-import {
-  SecurityContact,
-  SecurityData,
-  SecurityHero,
-  SecurityPillars,
-  SecurityVerify,
-} from "@/components/widgets/SecurityPage";
-import { securityMeta } from "@/constraints/security";
+import PageHero from "@/components/widgets/PageHero";
+import { SecurityContact, SecurityData, SecurityPillars, SecurityVerify } from "@/components/widgets/SecurityPage";
+import { securityHero, securityMeta } from "@/constraints/security";
 import { pageMetadata } from "@/lib/seo";
 import { JsonLd, breadcrumbSchema } from "@/lib/jsonLd";
 
 export const metadata: Metadata = pageMetadata({ ...securityMeta, path: "/security" });
 
 /**
- * Security & ledger (W4): stone hero → pillars → verify it yourself (ink)
- * → data handling → security contact → footer (Layout). No CTA band: the
- * page is for reviewers, so it ends on the security contact.
+ * Security & ledger, v2: pattern-frame hero → pillars → verify it
+ * yourself → data handling → security contact. No CTA band: the page is
+ * for reviewers, so it ends on the security contact.
  */
 export default function SecurityPage() {
   return (
-    <Containers.Layout headerTone="light">
-      <SecurityHero />
+    <Containers.Layout>
+      <PageHero id="security-title" eyebrow={securityHero.overline} title={securityHero.headline} lede={securityHero.lede} />
       <SecurityPillars />
       <SecurityVerify />
       <SecurityData />

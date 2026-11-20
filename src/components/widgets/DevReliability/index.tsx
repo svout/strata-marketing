@@ -18,7 +18,7 @@ const Reliability = () => (
       aside={<p className="max-w-[340px] text-body-lg text-fg-muted">{rel.aside}</p>}
     />
 
-    <div className="mt-10 overflow-hidden rounded-[24px] border border-line bg-ink md:mt-12 md:rounded-[28px]">
+    <div className="mt-10 overflow-hidden rounded-panel-lg bg-surface-1 shadow-edge md:mt-12">
       <table className="w-full text-left">
         <caption className="sr-only">What Strata does when something goes wrong, and what you control</caption>
         <thead className="hidden md:table-header-group">
@@ -39,7 +39,7 @@ const Reliability = () => (
               <th scope="row" className="text-base font-semibold md:w-[280px] md:px-7 md:py-5">
                 {r.when}
               </th>
-              <td className="text-base text-[#C9CBD1] md:px-7 md:py-5">{r.then}</td>
+              <td className="text-base text-text-2 md:px-7 md:py-5">{r.then}</td>
               <td className="font-mono text-[13px] text-cobalt-300 md:w-[300px] md:px-7 md:py-5">
                 <span className="mr-2 font-sans text-xs uppercase tracking-[0.06em] text-fg-muted md:hidden">You control</span>
                 {r.control}
@@ -52,7 +52,7 @@ const Reliability = () => (
 
     <ul className="mt-4 grid gap-3 md:grid-cols-3 md:gap-4">
       {rel.tiles.map((t) => (
-        <li key={t.title} className="flex items-center gap-3.5 rounded-[18px] border border-line px-5 py-[18px]">
+        <li key={t.title} className="flex items-center gap-3.5 rounded-panel border border-line px-5 py-[18px]">
           <SignalDot tone="approve" className="size-2.5" />
           <span className="flex flex-col">
             <span className="text-base font-semibold">{t.title}</span>

@@ -2,35 +2,23 @@
 
 import { useRef, useState } from "react";
 import clsx from "clsx";
-import { PillPattern, type LitPill } from "@/components/elements/PillPattern";
-import { containerClass } from "@/components/containers/Section";
+import { PatternFrame } from "@/components/elements/PatternFrame";
 import { Icons } from "@/components/icons";
 import { demoForm as copy, demoHero as hero } from "@/constraints/demo";
 
 /**
- * Request demo (W5). Continues the hero: same cobalt pattern, so clicking
- * "Request demo" feels like one step, not a new page. Copy and the three
- * call steps on the left, the form card on the right (stacked on mobile).
+ * Request demo, v2. The cobalt pattern frames the whole page, like every
+ * hero. Copy and the three call steps on the left, the form card on the
+ * right (stacked on mobile).
  *
  * Form: 5 fields (name, company, work email, use case, optional note) +
- * an invisible honeypot. Native inputs styled to the UI kit Input spec
- * (44 px, 8 px radius, cobalt border + #DCE4FF halo on focus, red border
- * and message on error). Each error is tied to its field with
+ * an invisible honeypot. Native inputs, v2: 40 px, radius 8, surface-2
+ * with a line-strong edge; cobalt edge and halo on focus; blocked-red
+ * edge and message on error. Each error is tied to its field with
  * aria-describedby, and focus moves to the first invalid field.
- * Success: the three step pills light up one by one, then the thank-you
+ * Success: the three call steps light up one by one, then the thank-you
  * message, announced to screen readers.
  */
-const lit: LitPill[] = [
-  { col: 1, row: 3, colour: "white" },
-  { col: 7, row: 6, colour: "white" },
-  { col: 1, row: 25, colour: "white" },
-  { col: 7, row: 28, colour: "white" },
-];
-const litCompact: LitPill[] = [
-  { col: 1, row: 3, colour: "white" },
-  { col: -2, row: 4, colour: "white" },
-];
-
 type Field = "name" | "company" | "email" | "useCase" | "message";
 type Errors = Partial<Record<Field, string>>;
 
@@ -38,16 +26,16 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const inputClass = (invalid: boolean) =>
   clsx(
-    "h-11 w-full rounded-sm border-[1.5px] bg-white px-3 text-[15px] text-ink outline-none transition-[border-color,box-shadow]",
-    "focus:border-cobalt-500 focus:shadow-[0_0_0_4px_var(--color-cobalt-100)]",
-    invalid ? "border-block" : "border-line",
+    "h-10 w-full rounded-button bg-surface-2 px-3 text-[15px] text-text-1 outline-none transition-shadow placeholder:text-text-3",
+    "focus:shadow-[inset_0_0_0_1px_#2B59FF,0_0_0_3px_rgba(43,89,255,0.35)]",
+    invalid ? "shadow-[inset_0_0_0_1px_var(--color-blocked)]" : "shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
   );
 
 function Label({ htmlFor, children, optional }: { htmlFor: string; children: React.ReactNode; optional?: boolean }) {
   return (
-    <label htmlFor={htmlFor} className="text-label font-semibold text-ink">
+    <label htmlFor={htmlFor} className="text-[13px] font-medium text-text-1">
       {children}
-      {optional && <span className="font-normal text-fg-muted"> (optional)</span>}
+      {optional && <span className="font-normal text-text-2"> (optional)</span>}
     </label>
   );
 }
@@ -55,7 +43,7 @@ function Label({ htmlFor, children, optional }: { htmlFor: string; children: Rea
 function ErrorText({ id, msg }: { id: string; msg?: string }) {
   if (!msg) return null;
   return (
-    <span id={id} className="flex items-center gap-1.5 text-[13px] text-block">
+    <span id={id} className="flex items-center gap-1.5 text-[13px] text-blocked">
       <Icons.Alert size={14} />
       {msg}
     </span>
@@ -114,10 +102,9 @@ export function DemoForm({ onSuccess }: { onSuccess: () => void }) {
       noValidate
       onSubmit={onSubmit}
       aria-labelledby="demo-form-title"
-      data-theme="light"
-      className="flex flex-col gap-[18px] rounded-[22px] bg-white p-6 text-ink shadow-[0_40px_80px_rgb(11_13_18/0.35)] md:rounded-[26px] md:p-9"
+      className="flex flex-col gap-[18px] rounded-panel-lg bg-surface-1 p-6 shadow-float md:p-8"
     >
-      <h2 id="demo-form-title" className="text-[22px] font-semibold tracking-[-0.02em]">
+      <h2 id="demo-form-title" className="text-[22px]">
         {copy.title}
       </h2>
 
@@ -163,7 +150,7 @@ export function DemoForm({ onSuccess }: { onSuccess: () => void }) {
           className={clsx(inputClass(!!errors.useCase), "appearance-none bg-[length:16px] bg-[right_12px_center] bg-no-repeat pr-10")}
           style={{
             backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2355575E' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238A8F98' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E\")",
           }}
           {...err("useCase")}
         >
@@ -201,15 +188,15 @@ export function DemoForm({ onSuccess }: { onSuccess: () => void }) {
       <button
         type="submit"
         disabled={status === "sending"}
-        className="flex h-[54px] items-center justify-center rounded-full bg-ink text-base font-semibold text-white transition-colors hover:bg-graphite disabled:opacity-60"
+        className="flex h-10 items-center justify-center rounded-button bg-cobalt text-[14px] font-medium text-white transition-colors hover:bg-cobalt-600 disabled:opacity-60"
       >
         {status === "sending" ? "Sending…" : copy.submit}
       </button>
 
-      <p role="status" aria-live="polite" className={clsx("text-sm text-block", status !== "error" && "sr-only")}>
+      <p role="status" aria-live="polite" className={clsx("text-sm text-blocked", status !== "error" && "sr-only")}>
         {status === "error" ? copy.error : ""}
       </p>
-      <p className="text-xs text-fg-muted">{copy.privacy}</p>
+      <p className="text-xs text-text-3">{copy.privacy}</p>
     </form>
   );
 }
@@ -225,31 +212,25 @@ export function DemoPage() {
   };
 
   return (
-    <section
-      data-theme="cobalt"
-      aria-labelledby="demo-title"
-      className="relative min-h-dvh overflow-hidden bg-cobalt-500 pb-16 pt-[100px] md:pb-20 md:pt-[120px]"
-    >
-      <PillPattern id="demo-hero" variant="cobalt" lit={lit} litCompact={litCompact} scrim="left" />
-
-      <div className={`${containerClass} relative grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_560px] lg:gap-20`}>
+    <PatternFrame id="demo-pattern" labelledBy="demo-title" containerClassName="min-h-[calc(100dvh-56px)] md:min-h-[calc(100dvh-72px)]">
+      <div className="mx-auto grid max-w-[1240px] items-center gap-10 px-5 pb-16 pt-[112px] md:pb-20 md:pt-[150px] lg:grid-cols-[minmax(0,1fr)_520px] lg:gap-20">
         <div className="flex flex-col items-start gap-6">
-          <h1
-            id="demo-title"
-            className="text-balance text-[clamp(2.75rem,1.4rem+4.4vw,4.25rem)] font-semibold leading-[0.98] tracking-[-0.05em]"
-          >
-            {hero.headline} <span className="text-ink">{hero.headlineAccent}</span>
+          <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-cobalt-light">Request a demo</p>
+          <h1 id="demo-title" className="text-balance text-h1 font-bold">
+            {hero.headline} <span className="text-text-2">{hero.headlineAccent}</span>
           </h1>
-          <p className="max-w-[520px] text-body-lg text-fg-muted md:text-[19px]">{hero.lede}</p>
+          <p className="max-w-[520px] text-lede text-text-2">{hero.lede}</p>
           <ol className="mt-2 flex flex-col gap-2.5" aria-label="What happens on the call">
             {hero.steps.map((s, i) => (
               <li
                 key={s}
                 className={clsx(
-                  "self-start rounded-full px-5 py-3 text-base transition-colors duration-500",
+                  "flex items-center gap-3 self-start rounded-button px-4 py-2.5 text-[15px] transition-[background-color,color,box-shadow] duration-500",
                   i === 0 && "ml-6",
                   i === 1 && "ml-3",
-                  done ? "bg-white font-semibold text-ink" : "bg-cobalt-700",
+                  done
+                    ? "bg-surface-3 text-text-1 shadow-[inset_0_0_0_1px_#2B59FF]"
+                    : "bg-surface-1 text-text-2 shadow-[inset_0_0_0_1px_var(--color-line-strong)]",
                 )}
                 style={{ transitionDelay: done ? `${i * 350}ms` : "0ms" }}
               >
@@ -265,21 +246,20 @@ export function DemoPage() {
               ref={thanksRef}
               tabIndex={-1}
               role="status"
-              data-theme="light"
-              className="flex flex-col gap-3 rounded-[22px] bg-white p-8 text-ink shadow-[0_40px_80px_rgb(11_13_18/0.35)] outline-none md:rounded-[26px] md:p-10"
+              className="flex flex-col gap-3 rounded-panel-lg bg-surface-1 p-8 shadow-float outline-none md:p-10"
             >
-              <span className="flex size-12 items-center justify-center rounded-full bg-approve-tint text-approve-fg">
+              <span className="flex size-12 items-center justify-center rounded-card bg-approved-bg text-approved">
                 <Icons.Check size={26} />
               </span>
-              <h2 className="text-[26px] font-semibold tracking-[-0.02em]">{copy.success.title}</h2>
-              <p className="text-body-lg text-fg-muted">{copy.success.body}</p>
+              <h2 className="text-[26px]">{copy.success.title}</h2>
+              <p className="text-body-lg text-text-2">{copy.success.body}</p>
             </div>
           ) : (
             <DemoForm onSuccess={onSuccess} />
           )}
         </div>
       </div>
-    </section>
+    </PatternFrame>
   );
 }
 

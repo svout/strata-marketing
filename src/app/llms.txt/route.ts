@@ -5,6 +5,9 @@ import { productMeta } from "@/constraints/product";
 import { devMeta } from "@/constraints/developers";
 import { securityMeta } from "@/constraints/security";
 import { demoMeta } from "@/constraints/demo";
+import { blogMeta } from "@/config/blog";
+import { pricingMeta } from "@/constraints/pricing";
+import { getPublishedPosts } from "@/lib/blog";
 
 /**
  * /llms.txt (llmstxt.org): a Markdown map of the site for AI assistants
@@ -17,10 +20,13 @@ const pages = [
   { name: "How it works", path: "/product", meta: productMeta },
   { name: "Developers", path: "/developers", meta: devMeta },
   { name: "Security", path: "/security", meta: securityMeta },
+  { name: "Pricing", path: "/pricing", meta: pricingMeta },
+  { name: "Blog", path: "/blog", meta: blogMeta },
   { name: "Request a demo", path: "/demo", meta: demoMeta },
 ];
 
 export function GET() {
+  const posts = getPublishedPosts();
   const body = [
     `# ${COMPANY.name}`,
     "",
@@ -33,6 +39,9 @@ export function GET() {
     `- [Home](${absoluteUrl("/")}): ${homeMeta.title}`,
     ...pages.map((p) => `- [${p.name}](${absoluteUrl(p.path)}): ${p.meta.description}`),
     "",
+    ...(posts.length
+      ? ["## Blog posts", "", ...posts.map((p) => `- [${p.title}](${absoluteUrl(`/blog/${p.slug}`)}): ${p.description}`), ""]
+      : []),
   ].join("\n");
 
   return new Response(body, { headers: { "Content-Type": "text/plain; charset=utf-8" } });

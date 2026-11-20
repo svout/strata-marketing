@@ -7,7 +7,7 @@ import Title from "./Title";
 import { Overline } from "./Overline";
 import { SectionHeader } from "./SectionHeader";
 import { Logo, LogoMark } from "./Logo";
-import { PillPattern } from "./PillPattern";
+import { PatternFrame } from "./PatternFrame";
 import { DecisionChip, SignalDot } from "./DecisionChip";
 import { CodeBlock } from "./CodeBlock";
 
@@ -22,7 +22,7 @@ const elements = {
   SectionHeader,
   Logo,
   LogoMark,
-  PillPattern,
+  PatternFrame,
   DecisionChip,
   SignalDot,
   CodeBlock,

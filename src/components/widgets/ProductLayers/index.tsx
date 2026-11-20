@@ -35,16 +35,16 @@ const ProductLayers = () => (
         >
           <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div className={clsx("flex flex-col gap-5", l.visualFirst && "lg:order-2")}>
-              <p className="font-mono text-label font-medium uppercase tracking-[0.06em] text-brand-on-subtle">
+              <p className="font-mono text-[12px] uppercase tracking-[0.1em] text-cobalt-light">
                 {layer.eyebrow}
               </p>
               <h2
                 id={`${layer.id}-title`}
-                className="text-balance text-[clamp(2rem,1.2rem+2.6vw,3rem)] font-semibold leading-[1.05] tracking-[-0.04em]"
+                className="text-balance text-h2 font-bold"
               >
                 {layer.title}
               </h2>
-              <ul className="flex flex-col gap-2 pl-5 text-body-lg text-fg-muted marker:text-cobalt-500 [&>li]:list-disc">
+              <ul className="flex flex-col gap-2 pl-5 text-body-lg text-fg-muted marker:text-cobalt-light [&>li]:list-disc">
                 {layer.points.map((p) => (
                   <li key={p} className="pl-1">
                     {p}

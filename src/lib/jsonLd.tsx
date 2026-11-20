@@ -1,6 +1,7 @@
 import { COMPANY, isFilled } from "@/config/company";
 import { HAS_SITE_URL, SITE_URL, absoluteUrl } from "@/config/site";
 import type { FaqItem } from "@/types/product";
+import { AUTHOR } from "@/config/blog";
 
 type Thing = Record<string, unknown>;
 
@@ -85,6 +86,84 @@ export function faqSchema(items: FaqItem[]): Thing | null {
       "@type": "Question",
       name: i.question,
       acceptedAnswer: { "@type": "Answer", text: i.answer },
+    })),
+  };
+}
+
+/** Home → … → page. Each item is [name, path]; the last is the current page. */
+export function breadcrumbTrail(items: [string, string][]): Thing {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: [["Home", "/"] as [string, string], ...items].map(([name, path], i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name,
+      item: absoluteUrl(path),
+    })),
+  };
+}
+
+type PostLd = {
+  slug: string;
+  title: string;
+  description: string;
+  date: string;
+  updated?: string;
+  tags: string[];
+  section: string;
+  linkedin?: string;
+};
+
+const BLOG_ID = `${SITE_URL}/blog#blog`;
+
+function authorSchema(): Thing {
+  const person: Thing = { "@type": "Person", name: AUTHOR.name };
+  const profiles = [AUTHOR.linkedin, AUTHOR.x].filter(isFilled);
+  if (profiles.length) {
+    person.url = profiles[0];
+    person.sameAs = profiles;
+  }
+  return person;
+}
+
+/** BlogPosting for one post. The image is the post's own social card. */
+export function blogPostingSchema(p: PostLd): Thing {
+  const url = absoluteUrl(`/blog/${p.slug}`);
+  return {
+    "@type": "BlogPosting",
+    "@id": `${url}#post`,
+    headline: p.title,
+    description: p.description,
+    datePublished: p.date,
+    dateModified: p.updated ?? p.date,
+    inLanguage: "en-GB",
+    author: authorSchema(),
+    publisher: { "@id": ORG_ID },
+    isPartOf: { "@id": BLOG_ID },
+    mainEntityOfPage: url,
+    url,
+    image: absoluteUrl(`/blog/${p.slug}/opengraph-image`),
+    articleSection: p.section,
+    keywords: p.tags.join(", "),
+    // The LinkedIn version is the same piece, published elsewhere
+    ...(p.linkedin && { sameAs: [p.linkedin] }),
+  };
+}
+
+/** Blog with its posts listed, for the /blog index */
+export function blogSchema(posts: { slug: string; title: string; date: string }[]): Thing {
+  return {
+    "@type": "Blog",
+    "@id": BLOG_ID,
+    name: `${COMPANY.name} blog`,
+    url: absoluteUrl("/blog"),
+    inLanguage: "en-GB",
+    publisher: { "@id": ORG_ID },
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      datePublished: p.date,
+      url: absoluteUrl(`/blog/${p.slug}`),
     })),
   };
 }

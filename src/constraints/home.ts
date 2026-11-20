@@ -1,423 +1,392 @@
-/**
- * Home page (W1) copy and sample data.
- *
- * Copy rules (vault: Marketing Website → Copy rules): only claims that
- * are true today, no invented statistics, no badges until earned.
- * Anything in [brackets] is for the owner to fill in. Every amount,
- * agent ID and ledger number here is SAMPLE data and is labelled as
- * such on the page.
- */
-import type {
-  AgentKind,
-  CodeSample,
-  DecideCheck,
-  DecisionSample,
-  LinkItem,
-  ProblemRow,
-} from "@/types/home";
-import type { FaqItem } from "@/types/product";
 import { COMPANY } from "@/config/company";
+import type { FaqItem } from "@/types/product";
+import type { Signal } from "@/components/elements/V2";
+import type { V2IconName } from "@/components/icons/v2";
 
-/** <title> ≤ 60 characters, description ≤ 160: both show in full in search results. */
+/**
+ * Home page copy and sample data, v2 (docs/design/website-v2/SPEC.md,
+ * W1–W9). Copy is final unless in [square brackets]; brackets are
+ * placeholders and render as written. Every amount, ID and time in the
+ * product mock-ups is sample data.
+ */
+
 export const homeMeta = {
-  title: `${COMPANY.name}: spending controls for AI agent payments`,
-  description: COMPANY.seoDescription,
+  title: `${COMPANY.name} | Spending Controls for AI Agent Payments`,
+  description:
+    "Strata checks every payment an AI agent tries to make against your rules, scores it for risk and records it on a tamper-evident ledger, before any money moves.",
 };
 
+/* ── W1 · Hero ─────────────────────────────────────────────────────── */
+
 export const hero = {
+  announcement: { tag: "New", text: "Watch three payments go through Strata", href: "#how-it-works" },
   label: "Spending controls for AI agents",
   headline: "Your agents can spend.",
   headlineAccent: "You set the limits.",
-  lede: "Strata checks every payment an AI agent tries to make, before any money moves.",
+  lede: "Spending controls for AI agents. Every payment is checked against your rules, scored for risk and recorded before any money moves.",
   primary: { label: "Request demo", href: "/demo" },
   secondary: { label: "Read the docs", href: "/developers" },
 };
 
-/** Live decision panel: loops through these, last one is the default view. */
-export const decisionSamples: DecisionSample[] = [
-  {
-    id: "hotel",
-    time: "13:58:04",
-    amount: "£412.00",
-    agent: "agt_travel-booker",
-    payee: "[Hotel]",
-    checks: [
-      { layer: "Mandate", tone: "approve", note: "hotels allowed" },
-      { layer: "Risk", tone: "approve", note: "normal for this agent" },
-      { layer: "Ledger", tone: "recorded", note: "#1039 recorded" },
-    ],
-    outcome: "approve",
-    headline: "Approved",
-    detail: "Inside the mandate. The payment goes ahead.",
-  },
-  {
-    id: "shop",
-    time: "14:01:47",
-    amount: "£1,250.00",
-    agent: "agt_travel-booker",
-    payee: "[Unknown shop]",
-    checks: [
-      { layer: "Mandate", tone: "block", note: "merchant not in mandate" },
-      { layer: "Risk", tone: "neutral", note: "not reached" },
-      { layer: "Ledger", tone: "recorded", note: "#1041 recorded" },
-    ],
-    outcome: "block",
-    headline: "Blocked",
-    detail: "No mandate covers this merchant. Nothing charged.",
-  },
-  {
-    id: "supplier",
-    time: "14:02:19",
-    amount: "£9,800.00",
-    agent: "agt_procure-bot",
-    payee: "[Supplier]",
-    checks: [
-      { layer: "Mandate", tone: "approve", note: "supplier allowed" },
-      { layer: "Risk", tone: "review", note: "over £5,000 daily cap" },
-      { layer: "Ledger", tone: "recorded", note: "#1042 recorded" },
-    ],
-    outcome: "review",
-    headline: "Sent to review",
-    detail: "Nothing charged until you decide.",
-  },
-];
-
-export const earlierDecisions = [
-  { label: "£412.00 hotel · approved", outcome: "approve" as const },
-  { label: "£1,250.00 · blocked, no mandate", outcome: "block" as const },
-  { label: "£86.40 rail · approved", outcome: "approve" as const },
-];
-
-export const logoStrip = {
-  label: "Teams putting agents in charge of spend",
-  logos: ["[Logo]", "[Logo]", "[Logo]", "[Logo]", "[Logo]"],
+export type DecisionRow = {
+  agent: string;
+  decision: "Approved" | "Review" | "Blocked";
+  time: string;
+  merchant: string;
+  category: string;
+  amount: string;
+  risk: string;
+  ledger: string;
 };
 
-export const problem = {
-  overline: "The problem",
-  title: "Agents are starting to pay for things. The controls haven't caught up.",
-  aside:
-    "Card limits were built for people. Here is one afternoon of agent spending, without and with Strata.",
-  withoutTitle: "Without controls",
-  withoutMeta: "4 problems",
-  withTitle: "With Strata",
-  withMeta: "all decided",
+/** W1 product window: the decisions journal (SAMPLE data) */
+export const productWindow = {
+  workspace: "[Workspace]",
+  date: "Today · 20 Nov",
+  title: "Decisions",
+  ranges: ["Today", "Week", "Month", "All", "Custom"],
+  totals: [
+    { tone: "approved" as Signal, label: "1,241 approved" },
+    { tone: "review" as Signal, label: "3 waiting" },
+    { tone: "blocked" as Signal, label: "40 blocked" },
+  ],
+  columns: ["Agent", "Decision", "Time", "Merchant", "Category", "Amount", "Risk", "Ledger"],
   rows: [
-    {
-      time: "13:02",
-      without: "Travel agent books the same £640 flight **14 times** in a loop",
-      with: "Stopped at the 4th booking: over the £2,000 daily cap",
-      outcome: "block",
-    },
-    {
-      time: "13:40",
-      without: "A poisoned prompt sends **£4,200** to an unknown shop",
-      with: "Merchant isn't in the agent's mandate",
-      outcome: "block",
-    },
-    {
-      time: "14:02",
-      without: "A **£9,800** supplier order goes through, no one asked",
-      with: "Unusual size, paused for a person to approve",
-      outcome: "review",
-    },
-    {
-      time: "17:30",
-      without: "Finance asks who approved it. **Nobody knows.**",
-      with: "Ledger #1042: approved by [name] at 14:04",
-      outcome: "recorded",
-    },
-  ] satisfies ProblemRow[],
+    { agent: "agt_travel-booker", decision: "Approved", time: "14:02:11", merchant: "[Airline]", category: "Travel", amount: "£412.00", risk: "0.08", ledger: "#1039" },
+    { agent: "agt_procure-bot", decision: "Review", time: "14:02:19", merchant: "[Supplier]", category: "Procurement", amount: "£9,800.00", risk: "0.71", ledger: "#1042" },
+    { agent: "agt_unknown", decision: "Blocked", time: "14:02:31", merchant: "[Merchant]", category: "Unknown", amount: "£1,250.00", risk: "—", ledger: "#1041" },
+    { agent: "agt_support-refunds", decision: "Approved", time: "14:01:52", merchant: "Refund #A-2291", category: "Refunds", amount: "£42.00", risk: "0.05", ledger: "#1038" },
+    { agent: "agt_travel-booker", decision: "Approved", time: "14:01:48", merchant: "[Hotel]", category: "Travel", amount: "£86.40", risk: "0.11", ledger: "#1037" },
+    { agent: "agt_ops", decision: "Approved", time: "14:00:03", merchant: "[Vendor]", category: "SaaS", amount: "£120.00", risk: "0.09", ledger: "#1036" },
+    { agent: "agt_travel-booker", decision: "Blocked", time: "13:58:40", merchant: "[Electronics]", category: "Not allowed", amount: "£640.00", risk: "—", ledger: "#1035" },
+    { agent: "agt_procure-bot", decision: "Approved", time: "13:57:12", merchant: "[Supplier]", category: "Procurement", amount: "£2,310.00", risk: "0.22", ledger: "#1034" },
+    { agent: "agt_ops", decision: "Review", time: "13:55:09", merchant: "[New vendor]", category: "SaaS", amount: "£1,480.00", risk: "0.58", ledger: "#1033" },
+    { agent: "agt_support-refunds", decision: "Approved", time: "13:54:44", merchant: "Refund #A-2287", category: "Refunds", amount: "£18.99", risk: "0.04", ledger: "#1032" },
+  ] satisfies DecisionRow[],
 };
 
-/**
- * 03 How Strata decides (board 03B, design/Home Section 03 Handoff.md).
- * The H2 and the three columns are real text for SEO; the animated
- * window (widgets/HowStrataDecides/scene.ts) is illustration only.
- */
+/* ── W2 · Connect ──────────────────────────────────────────────────── */
+
+export const connect = {
+  title: ["Start controlling agent spend in minutes.", "Put Strata in front of the rails your agents already pay through."] as [string, string],
+  /** Categories, not partner logos (real logos only once a partnership exists) */
+  rails: [
+    { label: "Card issuing", icon: "Card" },
+    { label: "Open banking", icon: "Bank" },
+    { label: "Payouts", icon: "Send" },
+    { label: "Invoices", icon: "Invoice" },
+    { label: "Wallets", icon: "Wallet" },
+    { label: "Subscriptions", icon: "Repeat" },
+    { label: "Marketplaces", icon: "Store" },
+    { label: "Payment links", icon: "Link" },
+  ] satisfies { label: string; icon: V2IconName }[],
+  panel: {
+    lead: "Strata in test mode. Every feature, free.",
+    body: "Connect a sandbox account, register an agent and watch real decisions on fake money.",
+    cta: { label: "Get test keys", href: "/developers#quickstart" },
+  },
+  manager: {
+    title: "Connection manager",
+    label: "Workspaces",
+    rows: [
+      { name: "Production", meta: "3 agents · live" },
+      { name: "Test mode", meta: "5 agents · sk_test_", selected: true },
+      { name: "Staging", meta: "2 agents" },
+    ],
+    add: "Add workspace",
+  },
+};
+
+/* ── W3 · How it decides ───────────────────────────────────────────── */
+
+export type PanelRow = { icon: V2IconName; label: string; value: string; mark?: "ok" | "warn"; tone?: "review" | "pale" };
+
 export const decides = {
-  overline: "How Strata decides",
-  title: "Three checks before any money moves.",
-  titleRest: "Watch three payments go through them: one paid, one paused for a person, one stopped.",
-  checks: [
-    {
-      id: "mandate",
-      label: "01 Mandate",
-      lead: "Is the agent allowed?",
-      rest: "Merchants, caps and time windows you set.",
-    },
-    {
-      id: "risk",
-      label: "02 Risk",
-      lead: "Does it look normal?",
-      rest: "Unusual payments wait for a person.",
-    },
-    {
-      id: "ledger",
-      label: "03 Ledger",
-      lead: "Write it down.",
-      rest: "Every outcome, chained so no one can quietly edit it.",
-    },
-  ] satisfies DecideCheck[],
-};
-
-export const mandateSentence = {
-  overline: "Built for any agent that spends",
-  title: "Write the rule the way you'd say it.",
-  resultsLabel: "Today Strata would have",
-  kinds: [
-    {
-      id: "travel",
-      label: "Travel",
-      agent: "travel agent",
-      amount: "£800",
-      per: "booking",
-      what: "flights, hotels & rail",
-      over: "£500",
-      who: "me",
-      results: [
-        { amount: "£412.00", what: "hotel", outcome: "approve" },
-        { amount: "£1,900.00", what: "flight", outcome: "review" },
-        { amount: "£640.00", what: "laptop", outcome: "block" },
-      ],
-    },
-    {
-      id: "procurement",
-      label: "Procurement",
-      agent: "procurement bot",
-      amount: "£5,000",
-      per: "day",
-      what: "12 approved suppliers",
-      over: "£3,000",
-      who: "finance",
-      results: [
-        { amount: "£2,310.00", what: "supplier", outcome: "approve" },
-        { amount: "£9,800.00", what: "supplier", outcome: "review" },
-        { amount: "£480.00", what: "unknown shop", outcome: "block" },
-      ],
-    },
-    {
-      id: "refunds",
-      label: "Refunds",
-      agent: "support agent",
-      amount: "£150",
-      per: "refund",
-      what: "customer refunds",
-      over: "£100",
-      who: "the team lead",
-      results: [
-        { amount: "£42.00", what: "refund", outcome: "approve" },
-        { amount: "£120.00", what: "refund", outcome: "review" },
-        { amount: "£150.00", what: "to a new card", outcome: "block" },
-      ],
-    },
-    {
-      id: "saas",
-      label: "SaaS & API",
-      agent: "ops agent",
-      amount: "£1,500",
-      per: "month",
-      what: "tools we already use",
-      over: "£500",
-      who: "IT",
-      results: [
-        { amount: "£120.00", what: "renewal", outcome: "approve" },
-        { amount: "£1,480.00", what: "new vendor", outcome: "review" },
-        { amount: "£99.00", what: "crypto exchange", outcome: "block" },
-      ],
-    },
-  ] satisfies AgentKind[],
-};
-
-export const developers = {
-  overline: "For developers",
-  title: "Put one API call in front of every payment.",
-  primary: { label: "Read the quickstart", href: "/developers" },
-  secondary: { label: "API reference", href: "/developers#api" },
-  endpoint: "POST /v1/payments",
-  samples: [
-    {
-      id: "python",
-      label: "Python",
-      request: [
-        [["# request", "comment"]],
-        [["decision = strata.pay(", "plain"]],
-        [["  agent=", "plain"], ['"agt_procure-bot"', "str"], [",", "plain"]],
-        [["  amount=", "plain"], ["9800_00", "num"], [",", "plain"]],
-        [["  currency=", "plain"], ['"GBP"', "str"], [",", "plain"]],
-        [["  merchant=", "plain"], ['"[supplier_id]"', "str"], [",", "plain"]],
-        [[")", "plain"]],
-      ],
-    },
-    {
-      id: "typescript",
-      label: "TypeScript",
-      illustrative: true,
-      request: [
-        [["// request", "comment"]],
-        [["const decision = await strata.pay({", "plain"]],
-        [["  agent: ", "plain"], ['"agt_procure-bot"', "str"], [",", "plain"]],
-        [["  amount: ", "plain"], ["980000", "num"], [",", "plain"]],
-        [["  currency: ", "plain"], ['"GBP"', "str"], [",", "plain"]],
-        [["  merchant: ", "plain"], ['"[supplier_id]"', "str"], [",", "plain"]],
-        [["});", "plain"]],
-      ],
-    },
-    {
-      id: "go",
-      label: "Go",
-      illustrative: true,
-      request: [
-        [["// request", "comment"]],
-        [["decision, err := client.Pay(ctx, strata.PayParams{", "plain"]],
-        [["  Agent:    ", "plain"], ['"agt_procure-bot"', "str"], [",", "plain"]],
-        [["  Amount:   ", "plain"], ["980000", "num"], [",", "plain"]],
-        [["  Currency: ", "plain"], ['"GBP"', "str"], [",", "plain"]],
-        [["  Merchant: ", "plain"], ['"[supplier_id]"', "str"], [",", "plain"]],
-        [["})", "plain"]],
-      ],
-    },
-    {
-      id: "curl",
-      label: "cURL",
-      illustrative: true,
-      request: [
-        [["# request", "comment"]],
-        [["curl https://api.[domain]/v1/payments \\", "plain"]],
-        [["  -H ", "plain"], ['"Authorization: Bearer $STRATA_KEY"', "str"], [" \\", "plain"]],
-        [["  -d agent=", "plain"], ["agt_procure-bot", "str"], [" \\", "plain"]],
-        [["  -d amount=", "plain"], ["980000", "num"], [" -d currency=", "plain"], ["GBP", "str"], [" \\", "plain"]],
-        [["  -d merchant=", "plain"], ["[supplier_id]", "str"]],
-      ],
-    },
-  ] satisfies CodeSample[],
-  response: [
-    [["# response", "comment"]],
-    [["{", "plain"]],
-    [["  ", "plain"], ['"outcome"', "key"], [":   ", "plain"], ['"review"', "num"], [",", "plain"]],
-    [["  ", "plain"], ['"reason"', "key"], [":    ", "plain"], ['"over daily cap"', "str"], [",", "plain"]],
-    [["  ", "plain"], ['"layer"', "key"], [":     ", "plain"], ['"risk"', "str"], [",", "plain"]],
-    [["  ", "plain"], ['"ledger_id"', "key"], [": ", "plain"], ['"led_91ab…3e"', "str"]],
-    [["}", "plain"]],
-  ] satisfies CodeSample["request"],
-  tiles: [
-    { title: "SDKs", detail: "Python · TypeScript · [Go status]" },
-    { title: "Webhooks", detail: "decision.* · review.resolved" },
-    { title: "Test mode", detail: "sk_test_… keys, no real money" },
-    { title: "OpenAPI spec", detail: "generate your own client" },
+  title: ["Why did that payment stop?", "Every decision explains itself."] as [string, string],
+  lede: "Each payment runs through the mandate, the risk check and the ledger, in that order. What comes back is the decision, the reason, and the ledger entry that proves it.",
+  /** Faded table behind the panel (SAMPLE) */
+  backTable: {
+    filters: ["All agents ▾", "Day", "Week", "Month", "All time", "Custom"],
+    columns: ["Agent", "Side", "Amount", "Time"],
+    rows: [
+      ["agt_travel-booker", "approved", "£412.00", "14:00"],
+      ["agt_procure-bot", "review", "£9,800.00", "14:01"],
+      ["agt_unknown", "blocked", "£1,250.00", "14:02"],
+      ["agt_support-refunds", "approved", "£42.00", "14:03"],
+      ["agt_travel-booker", "approved", "£86.40", "14:04"],
+      ["agt_ops", "approved", "£120.00", "14:05"],
+      ["agt_travel-booker", "blocked", "£640.00", "14:06"],
+      ["agt_procure-bot", "approved", "£2,310.00", "14:07"],
+      ["agt_ops", "review", "£1,480.00", "14:08"],
+      ["agt_support-refunds", "approved", "£18.99", "14:09"],
+      ["agt_travel-booker", "approved", "£64.20", "14:00"],
+      ["agt_ops", "approved", "£99.00", "14:01"],
+      ["agt_procure-bot", "approved", "£780.00", "14:02"],
+      ["agt_support-refunds", "approved", "£26.00", "14:03"],
+    ] as [string, "approved" | "review" | "blocked", string, string][],
+  },
+  panel: {
+    title: "Payment decision",
+    status: "Review",
+    id: "pay_8Hc2…",
+    request: [
+      { icon: "Sparkle", label: "Agent", value: "agt_procure-bot" },
+      { icon: "Card", label: "Amount", value: "£9,800.00" },
+      { icon: "Store", label: "Merchant", value: "[Supplier]" },
+      { icon: "Activity", label: "Time", value: "14:02:19" },
+    ] satisfies PanelRow[],
+    groups: [
+      {
+        title: "01 · Mandate",
+        rows: [
+          { icon: "Store", label: "Merchant allowed", value: "in procurement-v3", mark: "ok" },
+          { icon: "Card", label: "Per-payment cap", value: "£10,000", mark: "ok" },
+          { icon: "Activity", label: "Active hours", value: "Mon–Fri 07–20", mark: "ok" },
+        ],
+      },
+      {
+        title: "02 · Risk",
+        rows: [
+          { icon: "Chart", label: "Risk score", value: "0.71 · unusual", mark: "warn", tone: "review" },
+          { icon: "File", label: "Reasons", value: "3× usual size · over daily cap" },
+        ],
+      },
+      {
+        title: "03 · Ledger",
+        rows: [
+          { icon: "Lock", label: "Entry", value: "#1042", tone: "pale" },
+          { icon: "Link", label: "Hash · previous", value: "91ab…3e ← a41f…9c", mark: "ok" },
+        ],
+      },
+    ] satisfies { title: string; rows: PanelRow[] }[],
+    actions: { decline: "Decline", approve: "Approve" },
+  },
+  tabs: [
+    { title: "01 Mandate", desc: "Is the agent allowed to do this?" },
+    { title: "02 Risk", desc: "Does this payment look normal?" },
+    { title: "03 Ledger", desc: "Write the outcome down, chained." },
   ],
 };
 
-export const trust = {
-  overline: "Trust",
-  title: "Built to be audited, not just trusted.",
-  link: { label: "Security at Strata", href: "/security" },
-  ledger: {
-    title: "A tamper-evident ledger",
-    body: "Each entry carries the fingerprint of the one before it. Change one, and every entry after it stops matching.",
-    chain: [
-      { id: "#1040", hash: "7e2c…04" },
-      { id: "#1041", hash: "a41f…9c" },
-      { id: "#1042", hash: "91ab…3e" },
-      { id: "#1043", hash: "c07d…12" },
-    ],
-    verified: "12,480 entries verified",
-    checkedAt: "checked 14:05",
+/* ── W4 · Review ───────────────────────────────────────────────────── */
+
+export const review = {
+  title: ["Approvals that come to you,", "not a dashboard you have to watch."] as [string, string],
+  lede: "When a payment looks unusual, Strata pauses it and asks the right person, with the reasons, in one message.",
+  cta: { label: "See the review flow", href: "/product#risk" },
+  panel: {
+    title: "Strata Review",
+    waiting: "3 waiting",
+    request: {
+      agent: "agt_procure-bot",
+      amount: "£9,800.00",
+      merchant: "[Supplier]",
+      reasons: ["Over the £5,000 daily cap", "About 3× this agent’s usual size"],
+      tags: [
+        { tone: "review" as Signal, label: "risk 0.71" },
+        { tone: "approved" as Signal, label: "mandate ✓" },
+        { tone: "info" as Signal, label: "ledger #1042" },
+      ],
+    },
+    reply: "Approve once.",
+    result: { before: "Approved by [name] at 14:04. Paid and recorded as ", id: "#1043", after: "." },
+    suggestions: ["Approve once", "Raise daily cap to £10,000", "Always ask for this supplier"],
+    placeholder: "Reply, or ask why this payment was flagged…",
   },
-  pillars: [
-    {
-      icon: "shield",
-      title: "Workspace isolation",
-      body: "One team's data can never be read by another. [How isolation is tested]",
-    },
-    {
-      icon: "pulse",
-      title: "Explainable by default",
-      body: "Every decision says which layer decided, and why.",
-    },
-    {
-      icon: "download",
-      title: "Yours to export",
-      body: "The full log as CSV, whenever finance or auditors ask.",
-    },
-  ] as const,
 };
 
-/**
- * Home FAQ. Each answer stands on its own (search snippets and AI answers
- * quote one at a time) and only restates claims made elsewhere on the
- * site. Marked up as FAQPage, so keep the visible text and the data the same.
- */
-export const homeFaq = {
-  title: "Questions about agent spending controls",
+/* ── W5 · Features ─────────────────────────────────────────────────── */
+
+export const features = {
+  title: ["Everything around the payment,", "in one console."] as [string, string],
+  lede: "Set the rules, see the risk, approve what needs a person, and keep a record no one can quietly change.",
+  console: "Strata console",
   items: [
     {
-      question: "What is Strata?",
-      answer:
-        "Strata is a spending-control layer for AI agents. It sits between your agents and your payment provider and checks every payment an agent tries to make, before any money moves. Each payment is approved, sent to a person for review, or blocked.",
+      id: "mandates",
+      title: "Mandates",
+      desc: "Decide what each agent may buy, where, and how much: per payment, per day and per month.",
     },
-    {
-      question: "How does Strata decide whether an agent's payment goes ahead?",
-      answer:
-        "Every payment attempt passes three checks, in order. Mandate: is the agent allowed to make this payment? Risk: does it look normal for this agent? Ledger: the outcome is written down, whatever it is.",
-    },
-    {
-      question: "What can a mandate control?",
-      answer:
-        "A mandate is the set of rules one agent must follow: allowed merchants and categories, per-payment, daily and monthly caps, time windows and currencies, and an amount above which a person has to approve.",
-    },
-    {
-      question: "What happens when a payment looks unusual?",
-      answer:
-        "Strata scores each attempt against the agent's normal behaviour and shows the top reasons behind the score. Unusual payments wait for a person to decide, and nothing is charged until they do.",
-    },
-    {
-      question: "How can auditors tell the record hasn't been changed?",
-      answer:
-        "Every attempt, decision and override is written to a tamper-evident ledger. Each entry carries the fingerprint of the one before it, so changing one entry breaks every entry after it. The chain can be verified and exported as CSV at any time.",
-    },
-    {
-      question: "How do developers add Strata to an agent?",
-      answer:
-        "Put one API call in front of every payment. Strata has a REST API, webhooks and SDKs, and every call returns a decision, a reason and a ledger ID. Test mode uses sk_test_ keys, so no real money moves.",
-    },
-  ] satisfies FaqItem[],
+    { id: "risk", title: "Risk scoring", desc: "Every payment is compared with the agent's normal behaviour and scored, with reasons." },
+    { id: "review", title: "Human review", desc: "Unusual payments wait for a person, who approves from their phone or inbox." },
+    { id: "ledger", title: "Tamper-evident ledger", desc: "Every attempt, approval and rule change is hash-chained, so any edit shows." },
+    { id: "webhooks", title: "Webhooks", desc: "Your systems hear about every approval, block and review the moment it happens." },
+    { id: "test", title: "Test mode", desc: "Try every rule against fake payments with test keys. Same API, no real money." },
+  ],
+  mandate: {
+    agent: "agt_travel-booker",
+    scope: ["Flights", "Hotels", "Rail"],
+    caps: [
+      { label: "Per payment", value: "£800" },
+      { label: "Per day", value: "£2,000" },
+      { label: "Review over", value: "£500" },
+    ],
+    used: { label: "Used today", value: "£498", pct: 25 },
+  },
+  risk: {
+    title: "agt_procure-bot · last 20 payments",
+    score: "0.71",
+    bars: [22, 30, 18, 26, 34, 20, 28, 24, 31, 19, 27, 23, 35, 21, 29, 25, 33, 20, 26, 96],
+    reasons: ["About 3× this agent’s usual size", "Over the £5,000 daily cap"],
+  },
+  notify: {
+    title: "Strata · needs your approval",
+    when: "now",
+    amount: "£9,800.00",
+    detail: "agt_procure-bot → [Supplier] · over the daily cap",
+  },
+  ledger: {
+    rows: [
+      { id: "#1043", event: "review.approved · [name]", hash: "c07d…12" },
+      { id: "#1042", event: "decision.review · £9,800", hash: "91ab…3e" },
+      { id: "#1041", event: "decision.blocked · £1,250", hash: "a41f…9c" },
+      { id: "#1040", event: "mandate.updated · [name]", hash: "7e2c…04" },
+    ],
+    verified: "Chain verified · every hash matches",
+  },
+  webhooks: [
+    { event: "decision.approved", time: "14:02:11" },
+    { event: "decision.review", time: "14:02:19" },
+    { event: "decision.blocked", time: "14:02:31" },
+    { event: "review.resolved", time: "14:04:02" },
+  ],
+  test: {
+    label: "Test mode on",
+    key: "sk_test_••••3f9a",
+    rows: [
+      { amount: "£412.00", what: "hotel", tone: "approved" as Signal, label: "Approved" },
+      { amount: "£1,900.00", what: "flight", tone: "review" as Signal, label: "Review" },
+      { amount: "£640.00", what: "laptop", tone: "blocked" as Signal, label: "Blocked" },
+    ],
+    note: "Simulated · no money moves",
+  },
 };
+
+/* ── W6 · Developers ───────────────────────────────────────────────── */
+
+/**
+ * SDK method names are illustrative until the real SDK exists; they live
+ * here so they're easy to update. TypeScript and Go aren't written yet.
+ */
+export type CodeToken = { t: string; k?: "comment" | "string" | "number" };
+
+const c = (t: string): CodeToken => ({ t, k: "comment" });
+const s = (t: string): CodeToken => ({ t, k: "string" });
+const n = (t: string): CodeToken => ({ t, k: "number" });
+const p = (t: string): CodeToken => ({ t });
+
+export const developers = {
+  title: ["Built for the agent", "you are writing."] as [string, string],
+  lede: "Put Strata in front of every payment with one call. Decisions, reasons and ledger IDs come straight back.",
+  cta: { label: "Read the quickstart", href: "/developers#quickstart" },
+  window: "strata · quickstart",
+  languages: [
+    { id: "python", label: "Python", ready: true },
+    { id: "typescript", label: "TypeScript", ready: false },
+    { id: "go", label: "Go", ready: false },
+  ],
+  comingSoon: "[coming soon]",
+  snippets: [
+    {
+      title: "Send a payment",
+      desc: "One call, one decision.",
+      code: [
+        [c("# send a payment through Strata")],
+        [p("decision = strata.pay(")],
+        [p("    agent="), s('"agt_procure-bot"'), p(",")],
+        [p("    amount="), n("9800_00"), p(", currency="), s('"GBP"'), p(",")],
+        [p("    merchant="), s('"[supplier_id]"'), p(",")],
+        [p(")")],
+      ],
+      response: [
+        { k: "outcome", v: "review", tone: "review" as Signal },
+        { k: "layer", v: "risk", tone: "neutral" as Signal },
+        { k: "ledger", v: "#1042", tone: "info" as Signal },
+      ],
+    },
+    {
+      title: "Handle a review",
+      desc: "Hear when a person decides.",
+      code: [
+        [c("# react when a person decides")],
+        [p('@app.post('), s('"/strata/webhooks"'), p(")")],
+        [p("def on_event(event):")],
+        [p("    if event.type == "), s('"review.resolved"'), p(":")],
+        [p("        release_order(event.payment_id, event.outcome)")],
+      ],
+      response: [
+        { k: "event", v: "review.resolved", tone: "neutral" as Signal },
+        { k: "outcome", v: "approved", tone: "approved" as Signal },
+      ],
+    },
+    {
+      title: "Verify the ledger",
+      desc: "Prove nothing was edited.",
+      code: [
+        [c("# prove nothing was edited")],
+        [p("report = strata.ledger.verify(")],
+        [p("    since="), s('"2026-11-01"'), p(",")],
+        [p(")")],
+      ],
+      response: [
+        { k: "verified", v: "true", tone: "approved" as Signal },
+        { k: "entries", v: "[n]", tone: "neutral" as Signal },
+      ],
+    },
+    {
+      title: "Test mode",
+      desc: "Same API, fake money.",
+      code: [
+        [c("# same API, fake money")],
+        [p("strata = Strata(api_key="), s('"sk_test_…"'), p(")")],
+        [p("strata.pay(agent="), s('"agt_travel-booker"'), p(", amount="), n("412_00"), p(", currency="), s('"GBP"'), p(")")],
+      ],
+      response: [
+        { k: "mode", v: "test", tone: "review" as Signal },
+        { k: "outcome", v: "approved", tone: "approved" as Signal },
+      ],
+    },
+  ] satisfies {
+    title: string;
+    desc: string;
+    code: CodeToken[][];
+    response: { k: string; v: string; tone: Signal }[];
+  }[],
+};
+
+/* ── W7 · FAQ ──────────────────────────────────────────────────────── */
+
+export const homeFaq: { title: [string, string]; lede: string; items: FaqItem[] } = {
+  title: ["Questions,", "answered."],
+  lede: "Can't find what you need? Talk to the people building Strata.",
+  items: [
+    {
+      question: "Does Strata hold our money?",
+      answer: "No. Strata decides whether a payment may go ahead. Your existing payment provider still moves the money.",
+    },
+    { question: "Which payment providers does it work with?", answer: "[Supported providers]" },
+    { question: "Can a person override a decision?", answer: "[Answer: yes, through human review; confirm wording]" },
+    {
+      question: "How is the ledger tamper-evident?",
+      answer: "[Answer: each entry is hash-chained to the previous one; confirm wording]",
+    },
+    { question: "What happens if Strata can't be reached?", answer: "[Product decision: fail closed or fail open]" },
+    { question: "Is there a test mode?", answer: "[Answer: yes, sk_test_ keys, same API, no real money]" },
+  ],
+};
+
+/* ── W8 · Pricing (header; plans come from constraints/pricing) ────── */
+
+export const homePricing = {
+  title: ["Simple plans that grow", "with your agents."] as [string, string],
+  footnote: "No card needed for Sandbox · cancel anytime · prices exclude VAT",
+  more: { label: "Compare every plan", href: "/pricing" },
+};
+
+/* ── W9 · Closing CTA ──────────────────────────────────────────────── */
 
 export const cta = {
-  title: "Give your agents a budget,",
-  titleAccent: "not a blank cheque.",
-  primary: { label: "Request demo", href: "/demo" },
-  secondary: { label: "Read the docs", href: "/developers" },
-};
-
-export const footer = {
-  columns: [
-    {
-      title: "Product",
-      links: [
-        { label: "How it works", href: "/product" },
-        { label: "Use cases", href: "/#built-for" },
-        { label: "Security", href: "/security" },
-        { label: "Request demo", href: "/demo" },
-      ],
-    },
-    {
-      title: "Developers",
-      links: [
-        { label: "Quickstart", href: "/developers" },
-        { label: "API reference", href: "/developers#api" },
-        { label: "Status", href: "#" /* [status page URL] */ },
-      ],
-    },
-    {
-      title: "Company",
-      links: [
-        { label: "About", href: "#" /* later (site map) */ },
-        { label: "Privacy", href: "#" /* [privacy policy] */ },
-        { label: "Terms", href: "#" /* [terms] */ },
-      ],
-    },
-  ] satisfies { title: string; links: LinkItem[] }[],
-  legal: "© [year] [Legal entity]",
+  title: ["Give your agents a budget,", "not a blank cheque."] as [string, string],
+  primary: { label: "Get started", href: "/pricing" },
+  secondary: { label: "Request demo", href: "/demo" },
 };

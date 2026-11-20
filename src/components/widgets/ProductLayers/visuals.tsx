@@ -25,7 +25,7 @@ function Frame({ caption, children, className }: { caption: string; children: Re
   );
 }
 
-const field = "flex h-10 items-center rounded-sm border-[1.5px] border-line bg-elevated px-3 font-mono text-sm";
+const field = "flex h-10 items-center rounded-button bg-surface-2 px-3 font-mono text-sm shadow-[inset_0_0_0_1px_var(--color-line-strong)]";
 
 export function MandateEditorCrop() {
   return (
@@ -34,30 +34,30 @@ export function MandateEditorCrop() {
       className="md:pb-20"
     >
       {/* Extra bottom padding is the space the "In plain words" card overlaps */}
-      <div className="rounded-[22px] bg-elevated p-5 pb-12 shadow-pop md:p-6 md:pb-24">
+      <div className="rounded-panel-lg bg-surface-1 p-5 pb-12 shadow-edge md:p-6 md:pb-24">
         <p className="text-[13px] text-fg-muted">{m.breadcrumb}</p>
         <p className="mb-2 mt-0.5 text-[22px] font-semibold tracking-[-0.03em]">{m.name}</p>
 
         <div className="grid gap-x-4 gap-y-1 text-sm sm:grid-cols-[140px_minmax(0,1fr)]">
           <span className="pt-4 font-semibold">1 · Which agent?</span>
-          <div className="border-b border-[#EEECE6] py-3">
+          <div className="border-b border-line py-3">
             <div className={field}>{m.agent}</div>
           </div>
 
           <span className="pt-4 font-semibold">2 · What &amp; where?</span>
-          <div className="flex flex-wrap gap-2 border-b border-[#EEECE6] py-3 text-[13px]">
+          <div className="flex flex-wrap gap-2 border-b border-line py-3 text-[13px]">
             {m.categories.map((c) => (
-              <span key={c} className="rounded-full bg-cobalt-500 px-3 py-1.5 font-semibold text-white">
+              <span key={c} className="rounded-[7px] bg-surface-3 px-2.5 py-1.5 font-medium">
                 {c} ✕
               </span>
             ))}
-            <span className="rounded-full border-[1.5px] border-dashed border-mist px-3 py-1.5 text-fg-muted">
+            <span className="rounded-[7px] border border-dashed border-line-strong px-2.5 py-1.5 text-text-2">
               + Add category
             </span>
           </div>
 
           <span className="pt-4 font-semibold">3 · How much?</span>
-          <div className="grid grid-cols-3 gap-2.5 border-b border-[#EEECE6] py-3">
+          <div className="grid grid-cols-3 gap-2.5 border-b border-line py-3">
             {m.caps.map((c) => (
               <div key={c.label} className="flex flex-col gap-1.5">
                 <span className="text-xs text-fg-muted">{c.label}</span>
@@ -67,9 +67,9 @@ export function MandateEditorCrop() {
           </div>
 
           <span className="pt-4 font-semibold">4 · When?</span>
-          <div className="flex flex-wrap gap-1.5 border-b border-[#EEECE6] py-3 text-[13px]">
+          <div className="flex flex-wrap gap-1.5 border-b border-line py-3 text-[13px]">
             {m.days.map((d) => (
-              <span key={d.d} className={clsx("rounded-sm px-2.5 py-1.5", d.on ? "bg-ink text-white" : "bg-[#EEECE6]")}>
+              <span key={d.d} className={clsx("rounded-sm px-2.5 py-1.5", d.on ? "bg-cobalt text-white" : "bg-surface-3 text-text-2")}>
                 {d.d}
               </span>
             ))}
@@ -77,8 +77,8 @@ export function MandateEditorCrop() {
 
           <span className="pt-4 font-semibold">5 · Ask a human?</span>
           <div className="flex flex-wrap items-center gap-2.5 py-3">
-            <span className="relative h-[26px] w-11 shrink-0 rounded-full bg-cobalt-500">
-              <span className="absolute right-[3px] top-[3px] size-5 rounded-full bg-white" />
+            <span className="relative h-5 w-9 shrink-0 rounded-full bg-cobalt-500">
+              <span className="absolute right-0.5 top-0.5 size-4 rounded-full bg-white" />
             </span>
             Review over <span className={clsx(field, "h-9 w-20")}>{m.reviewOver}</span> and notify{" "}
             <b>{m.reviewer}</b>
@@ -87,8 +87,8 @@ export function MandateEditorCrop() {
       </div>
 
       {/* "In plain words" card overlapping the editor, as on P7 */}
-      <div className="relative z-10 mx-4 -mt-8 rounded-[18px] bg-ink p-5 text-white shadow-pop md:absolute md:bottom-0 md:right-[-12px] md:mx-0 md:mt-0 md:w-[340px]">
-        <span className="font-mono text-overline text-mist">IN PLAIN WORDS</span>
+      <div className="relative z-10 mx-4 -mt-8 rounded-panel bg-surface-2 p-5 text-text-1 shadow-float md:absolute md:bottom-0 md:right-[-12px] md:mx-0 md:mt-0 md:w-[340px]">
+        <span className="font-mono text-overline text-cobalt-light">IN PLAIN WORDS</span>
         <p className="mt-2 text-[15px] font-semibold leading-snug">{m.plainWords}</p>
       </div>
     </Frame>
@@ -99,13 +99,13 @@ export function ReviewQueueCrop() {
   const [first, second] = rq.cards;
   return (
     <Frame caption={`Example from the review queue: ${first.amount} from ${first.agent}. ${first.why}`}>
-      <div className="flex flex-col gap-3 rounded-[22px] bg-surface p-4 md:p-6">
+      <div className="flex flex-col gap-3 rounded-panel-lg bg-surface-1 p-4 shadow-edge md:p-6">
         <p className="flex items-baseline gap-3 pr-16">
           <span className="text-[22px] font-semibold tracking-[-0.03em]">Review queue</span>
           <span className="text-sm text-fg-muted">{rq.waiting}</span>
         </p>
 
-        <div className="flex flex-col gap-4 rounded-[18px] border-2 border-cobalt-500 bg-elevated p-5">
+        <div className="flex flex-col gap-4 rounded-panel bg-surface-2 p-5 shadow-[inset_0_0_0_1px_#2B59FF]">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div className="flex flex-col gap-1">
               <span className="font-mono text-[26px] font-medium">{first.amount}</span>
@@ -119,24 +119,24 @@ export function ReviewQueueCrop() {
             <span className="text-sm leading-normal">{first.why}</span>
             <div className="flex items-center gap-2 text-xs text-fg-muted">
               Risk
-              <span className="h-1.5 w-32 rounded-full bg-[#EEECE6]">
+              <span className="h-1.5 w-32 rounded-full bg-surface-3">
                 <span className="block h-1.5 rounded-full bg-review" style={{ width: `${first.score * 100}%` }} />
               </span>
               <span className="font-mono">{first.score.toFixed(2)}</span>
             </div>
           </div>
           <div className="flex gap-2.5 text-[15px] font-semibold">
-            <span className="flex h-11 flex-1 items-center justify-center rounded-full bg-cobalt-500 text-white">
+            <span className="flex h-10 flex-1 items-center justify-center rounded-button bg-cobalt text-[14px] font-medium text-white">
               Approve
             </span>
-            <span className="flex h-11 flex-1 items-center justify-center rounded-full border-[1.5px] border-line bg-elevated">
+            <span className="flex h-10 flex-1 items-center justify-center rounded-button bg-surface-3 text-[14px] font-medium shadow-[inset_0_0_0_1px_var(--color-line-strong)]">
               Decline
             </span>
           </div>
         </div>
 
         {/* Next card in the queue, compact: shows there's a list */}
-        <div className="flex items-center justify-between gap-4 rounded-[18px] border border-line bg-elevated px-5 py-4">
+        <div className="flex items-center justify-between gap-4 rounded-panel bg-surface-2 px-5 py-4 shadow-edge">
           <div className="flex flex-col">
             <span className="font-mono text-lg font-medium">{second.amount}</span>
             <span className="text-[13px] text-fg-muted">{second.agent}</span>
@@ -167,13 +167,13 @@ export function LedgerChain() {
               <div
                 className={clsx(
                   "flex-1 rounded-[14px] p-4 font-mono text-xs leading-[1.7]",
-                  last ? "bg-cobalt-500 text-white" : "border border-line bg-surface text-[#C9CBD1]",
+                  last ? "bg-cobalt-500 text-white" : "bg-surface-1 text-text-2 shadow-edge",
                 )}
               >
                 <span className="block text-sm font-medium text-white">{e.id}</span>
                 {outcomeWord[e.outcome as keyof typeof outcomeWord]}
                 <br />
-                <span className={last ? "text-white" : "text-cobalt-300"}>prev {e.prev}</span>
+                <span className={last ? "text-white" : "text-cobalt-pale"}>prev {e.prev}</span>
               </div>
             </li>
           );

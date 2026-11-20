@@ -62,13 +62,13 @@ const ProductNav = () => {
   }, []);
 
   return (
-    // Matches the scrolled header height: 72 px mobile, 84 px desktop
-    <div ref={anchorRef} className="sticky top-[72px] z-20 h-0 md:top-[84px]">
+    // Matches the scrolled header height: 64 px mobile, 72 px desktop
+    <div ref={anchorRef} className="sticky top-16 z-20 h-0 md:top-[72px]">
       <nav
         aria-label="On this page"
         aria-hidden={!visible}
         className={clsx(
-          "absolute inset-x-0 top-0 border-b border-line bg-elevated/90 backdrop-blur-md transition-[opacity,transform] duration-300",
+          "absolute inset-x-0 top-0 border-b border-line bg-[rgba(8,9,10,0.8)] backdrop-blur-[12px] transition-[opacity,transform] duration-300",
           visible ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0",
         )}
         style={{ height: BAR_H }}
@@ -80,8 +80,10 @@ const ProductNav = () => {
                 href={`#${a.id}`}
                 aria-current={active === a.id ? "location" : undefined}
                 className={clsx(
-                  "inline-flex h-9 items-center rounded-full px-4 text-sm font-semibold transition-colors",
-                  active === a.id ? "bg-cobalt-500 text-white" : "bg-surface text-fg hover:bg-canvas",
+                  "inline-flex h-8 items-center rounded-button px-3.5 text-[13px] font-medium transition-colors",
+                  active === a.id
+                    ? "bg-surface-3 text-text-1 shadow-[inset_0_0_0_1px_var(--color-line-strong)]"
+                    : "text-text-2 hover:text-text-1",
                 )}
               >
                 {a.label}

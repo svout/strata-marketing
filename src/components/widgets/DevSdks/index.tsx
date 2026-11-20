@@ -25,7 +25,7 @@ const DevSdks = () => (
 
     <div className="mt-10 grid gap-5 md:mt-12 lg:grid-cols-2">
       {/* SDKs */}
-      <div className="flex min-w-0 flex-col gap-1.5 rounded-[24px] border border-line bg-surface p-5 md:rounded-[28px] md:p-7">
+      <div className="flex min-w-0 flex-col gap-1.5 rounded-panel-lg bg-surface-1 shadow-edge p-5 md:p-7">
         <div className="mb-2.5 flex flex-wrap items-baseline justify-between gap-2">
           <h3 className="text-[22px] font-semibold">SDKs</h3>
           <span className="text-[13px] text-fg-muted">{sdks.sdkNote}</span>
@@ -45,7 +45,7 @@ const DevSdks = () => (
                 <th scope="row" className="py-4 pr-3 align-middle text-base font-semibold">
                   {r.name}
                 </th>
-                <td className="py-4 pr-3 align-middle font-mono text-[12.5px] text-[#C9CBD1] md:text-[13px]">
+                <td className="py-4 pr-3 align-middle font-mono text-[12.5px] text-text-2 md:text-[13px]">
                   <span className="[overflow-wrap:anywhere]">{r.install}</span>
                 </td>
                 <td className="py-4 text-right align-middle">
@@ -59,7 +59,7 @@ const DevSdks = () => (
               <th scope="row" className="py-4 pr-3 text-base font-semibold">
                 {sdks.openapi.name}
               </th>
-              <td className="py-4 pr-3 font-mono text-[13px] text-[#C9CBD1]">{sdks.openapi.file}</td>
+              <td className="py-4 pr-3 font-mono text-[13px] text-text-2">{sdks.openapi.file}</td>
               <td className="py-4 text-right">
                 <a href={sdks.openapi.href} className="rounded-sm text-[13px] font-semibold text-cobalt-300 hover:underline">
                   {sdks.openapi.label}
@@ -72,7 +72,7 @@ const DevSdks = () => (
       </div>
 
       {/* Webhooks */}
-      <div className="flex min-w-0 flex-col gap-3.5 rounded-[24px] border border-line bg-surface p-5 md:rounded-[28px] md:p-7">
+      <div className="flex min-w-0 flex-col gap-3.5 rounded-panel-lg bg-surface-1 shadow-edge p-5 md:p-7">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h3 className="text-[22px] font-semibold">Webhooks</h3>
           <span className="text-[13px] text-fg-muted">{sdks.webhookNote}</span>

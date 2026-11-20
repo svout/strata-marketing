@@ -32,3 +32,40 @@ export function pageMetadata({ title, description, path, absolute = false }: Pag
     twitter: { card: "summary_large_image", title: fullTitle, description },
   };
 }
+
+/** Feed link for <head>, so readers and feed tools find the RSS feed */
+export const blogFeed = { "application/rss+xml": [{ url: "/blog/rss.xml", title: `${COMPANY.name} blog` }] };
+
+type ArticleMeta = {
+  title: string;
+  description: string;
+  path: string;
+  date: string;
+  updated?: string;
+  author: string;
+  section: string;
+  tags: string[];
+  /** Drafts are never indexed, even if a preview build shows them */
+  draft?: boolean;
+};
+
+/** Metadata for a blog post: og:type article with dates, author and tags. */
+export function articleMetadata(a: ArticleMeta): Metadata {
+  const base = pageMetadata({ title: a.title, description: a.description, path: a.path });
+  return {
+    ...base,
+    alternates: { canonical: a.path, types: blogFeed },
+    authors: [{ name: a.author }],
+    keywords: a.tags,
+    openGraph: {
+      ...base.openGraph,
+      type: "article",
+      publishedTime: a.date,
+      modifiedTime: a.updated ?? a.date,
+      authors: [a.author],
+      section: a.section,
+      tags: a.tags,
+    },
+    ...(a.draft && { robots: { index: false, follow: false } }),
+  };
+}

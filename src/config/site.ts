@@ -32,5 +32,7 @@ export const ROUTES: SiteRoute[] = [
   { path: "/product", name: "How it works", changeFrequency: "monthly", priority: 0.9 },
   { path: "/developers", name: "Developers", changeFrequency: "monthly", priority: 0.8 },
   { path: "/security", name: "Security", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/pricing", name: "Pricing", changeFrequency: "monthly", priority: 0.8 },
+  { path: "/blog", name: "Blog", changeFrequency: "weekly", priority: 0.7 },
   { path: "/demo", name: "Request a demo", changeFrequency: "yearly", priority: 0.6 },
 ];

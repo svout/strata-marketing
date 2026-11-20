@@ -25,7 +25,7 @@ function Connector({ dot }: { dot: "in" | "out" }) {
 }
 
 const ProductFlow = () => (
-  <Section tone="white" labelledBy="flow-title">
+  <Section tone="white" labelledBy="flow-title" className="md:!pt-28">
     <h2 id="flow-title" className="sr-only">
       {flow.title}
     </h2>
@@ -36,7 +36,7 @@ const ProductFlow = () => (
         charged.
       </figcaption>
 
-      <div className="flex h-[110px] w-[170px] shrink-0 flex-col items-center justify-center gap-1 rounded-[18px] border-[1.5px] border-fg">
+      <div className="flex h-[110px] w-[170px] shrink-0 flex-col items-center justify-center gap-1 rounded-panel bg-surface-1 shadow-edge-strong">
         <span className="text-lg font-semibold">{flow.agent.name}</span>
         <span className="font-mono text-xs text-fg-muted">{flow.agent.note}</span>
       </div>
@@ -44,10 +44,9 @@ const ProductFlow = () => (
       <Connector dot="in" />
 
       <div
-        data-theme="dark"
-        className="flex w-full max-w-[520px] flex-col gap-2.5 rounded-[26px] bg-ink p-5 md:p-[26px]"
+        className="flex w-full max-w-[520px] flex-col gap-2.5 rounded-panel-lg bg-surface-1 p-5 shadow-edge md:p-[26px]"
       >
-        <span className="font-mono text-xs text-fg-muted">STRATA</span>
+        <span className="font-mono text-xs text-text-3">STRATA</span>
         {flow.layers.map((layer, i) => (
           <div
             key={layer}

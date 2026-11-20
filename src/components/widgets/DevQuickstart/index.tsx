@@ -67,7 +67,7 @@ const DevQuickstart = () => {
         title={qs.title}
         titleId="quickstart-title"
         aside={
-          <span className="inline-flex items-center gap-2 rounded-full bg-elevated px-3.5 py-2 text-sm text-[#C9CBD1]">
+          <span className="inline-flex h-7 items-center gap-2 rounded-chip bg-surface-2 px-2.5 text-[13px] text-text-2">
             <SignalDot tone="approve" />
             {qs.badge}
           </span>
@@ -92,7 +92,7 @@ const DevQuickstart = () => {
                 tabIndex={on ? 0 : -1}
                 onClick={() => select(i)}
                 className={clsx(
-                  "flex items-start gap-4 rounded-[20px] px-5 py-4 text-left transition-colors md:px-[22px] md:py-5",
+                  "flex items-start gap-4 rounded-panel px-5 py-4 text-left transition-colors md:px-[22px] md:py-5",
                   on ? "bg-elevated shadow-[inset_0_0_0_1.5px_var(--color-cobalt-500)]" : "shadow-[inset_0_0_0_1px_var(--color-line)] hover:bg-elevated/60",
                 )}
               >
@@ -114,7 +114,7 @@ const DevQuickstart = () => {
         </div>
 
         <div id="qs-panel" role="tabpanel" aria-labelledby={`qs-tab-${active}`} className="flex min-w-0 flex-col gap-3">
-          <div className="flex min-h-[320px] flex-1 flex-col overflow-hidden rounded-[22px] border border-line bg-ink">
+          <div className="flex min-h-[320px] flex-1 flex-col overflow-hidden rounded-panel-lg bg-surface-1 shadow-edge">
             <div className="flex h-[50px] shrink-0 items-center gap-3 border-b border-line px-4 md:px-[18px]">
               <span aria-hidden className="flex gap-1.5">
                 <span className="size-2.5 rounded-full bg-line" />
@@ -125,7 +125,7 @@ const DevQuickstart = () => {
               <button
                 type="button"
                 onClick={copy}
-                className="ml-auto rounded-sm bg-elevated px-3 py-1.5 text-[12.5px] text-[#C9CBD1] hover:text-white"
+                className="ml-auto rounded-sm bg-elevated px-3 py-1.5 text-[12.5px] text-text-2 hover:text-white"
               >
                 {copied ? "Copied" : "Copy"}
                 <span className="sr-only"> code for step {active + 1}</span>
@@ -136,7 +136,7 @@ const DevQuickstart = () => {
             </div>
             <CodeBlock text={step.code} label={`Step ${active + 1} code`} className="flex-1 px-5 py-5 md:px-[26px] md:py-6 md:text-[15px]" />
           </div>
-          <div className="flex flex-wrap items-center gap-3.5 rounded-[16px] border border-line bg-ink px-5 py-4 font-mono text-[13.5px]">
+          <div className="flex flex-wrap items-center gap-3.5 rounded-card bg-surface-1 shadow-edge px-5 py-4 font-mono text-[13.5px]">
             <span className="text-fg-muted">OUTPUT</span>
             <span className={outColour[step.tone]}>{step.out}</span>
           </div>

@@ -6,158 +6,151 @@ import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
-import { config } from "./_menu.config";
+import { headerNav } from "@/config/navigation";
 import { Logo } from "../Logo";
-import { Button } from "../Button";
 import { Icons } from "@/components/icons";
 import { useScrolled } from "@/hooks/useScrolled";
+import { btn } from "@/lib/ui";
 
 /**
- * Site header, fixed to the top of the viewport.
- * At the top of the page it is transparent and takes the hero's tone:
- * `onCobalt` (Home, Product, Demo), `onInk` (Developers) or `light`
- * (Security). Once the page scrolls it fades to a white bar with ink
- * text, a hairline and a soft shadow, and extra vertical padding
- * (72 px mobile, 84 px desktop).
- * The logo cross-fades between the hero's version and the light one.
- * Desktop: logo · nav · Sign in (ghost) + Request demo (pill).
- * Below md: logo + menu button opening an MUI Drawer, which handles the
- * focus trap, Escape and returning focus to the button.
+ * Site header, v2 (spec W1 → Nav).
+ *
+ * At the top of a page it sits inside the hero's dark container: 72 px
+ * high, 72 px down (56 on phones) and 16 px in from both sides, so it
+ * reads as the top of that container. Once the page scrolls it becomes a
+ * full-width sticky bar with rgba(8,9,10,.8) and a 12 px backdrop blur.
+ *
+ * Desktop: logo · centred links (text-2, 14 px, 32 px apart) · Log in
+ * (link) + Get started (white). Below 900 px the links collapse into a
+ * menu button that opens an MUI Drawer (focus trap, Escape, focus return).
+ *
+ * `focus` (Request demo): logo and "Back to site" only.
  */
 export type HeaderTone = "onCobalt" | "onInk" | "light";
-type MenuProps = { tone?: HeaderTone };
 
-// Section theme and logo version while the header sits on the hero
-const topLook: Record<HeaderTone, { theme?: string; logo: "onCobalt" | "dark" | "light" }> = {
-  onCobalt: { theme: "cobalt", logo: "onCobalt" },
-  onInk: { theme: "dark", logo: "dark" },
-  light: { logo: "light" },
-};
+const currentFor = (pathname: string, href?: string) =>
+  !href || href.includes("#")
+    ? undefined
+    : pathname === href
+      ? ("page" as const)
+      : pathname.startsWith(`${href}/`)
+        ? ("true" as const)
+        : undefined;
 
-const Menu = ({ tone = "onCobalt" }: MenuProps) => {
+const Menu = ({ variant = "site" }: { variant?: "site" | "focus"; tone?: HeaderTone }) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(24);
-  // The hero's look applies only until the header turns white
-  const top = topLook[tone];
-  const onHero = !scrolled;
-  const onCobalt = tone === "onCobalt" && onHero;
 
   return (
     <header
-      data-theme={onHero ? top.theme : undefined}
       className={clsx(
-        "fixed inset-x-0 top-0 z-30 border-b transition-[background-color,border-color,box-shadow,color] duration-300 ease-out",
+        "fixed z-30 transition-[top,left,right,background-color,box-shadow] duration-300 ease-out",
         scrolled
-          ? "border-line bg-elevated/90 shadow-[0_8px_20px_rgb(11_13_18/0.06)] backdrop-blur-md"
-          : "border-transparent bg-transparent",
+          ? "inset-x-0 top-0 bg-[rgba(8,9,10,0.8)] shadow-[inset_0_-1px_0_var(--color-line)] backdrop-blur-[12px]"
+          : "left-2 right-2 top-14 bg-transparent md:left-4 md:right-4 md:top-[72px]",
       )}
     >
       <div
         className={clsx(
-          "mx-auto flex max-w-[1440px] items-center gap-10 px-5 transition-[height] duration-300 ease-out md:px-10 xl:px-20",
-          // Scrolled bar gets extra vertical padding so it doesn't feel cramped
-          scrolled ? "h-[72px] md:h-[84px]" : "h-[60px] md:h-20",
+          "mx-auto flex h-16 items-center gap-10 md:h-[72px]",
+          scrolled ? "max-w-[1440px] px-5 md:px-12" : "px-4 md:px-8",
         )}
       >
-        <Link href="/" aria-label="Strata home" className="relative rounded-md">
-          {/* Both logo versions stacked; the opacity swap is the animation */}
-          <Logo
-            tone={top.logo}
-            size={30}
-            className={clsx("transition-opacity duration-300", onHero ? "opacity-100" : "opacity-0")}
-          />
-          <Logo
-            tone="light"
-            size={30}
-            className={clsx(
-              "absolute left-0 top-0 transition-opacity duration-300",
-              onHero ? "opacity-0" : "opacity-100",
-            )}
-          />
+        <Link href="/" aria-label="Strata home" className="rounded-md">
+          <Logo tone="dark" size={26} />
         </Link>
 
-        <nav aria-label="Main" className="hidden md:block">
-          <ul className="flex gap-7 text-[15px] font-medium">
-            {config.links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  aria-current={pathname === link.href ? "page" : undefined}
-                  className="rounded-sm text-fg underline-offset-4 transition-colors duration-300 hover:underline aria-[current=page]:underline"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {variant === "focus" ? (
+          <Link href="/" className={btn("link", "ml-auto")}>
+            ← Back to site
+          </Link>
+        ) : (
+          <>
+            <nav aria-label="Main" className="mx-auto hidden min-[900px]:block">
+              <ul className="flex gap-8 text-[14px]">
+                {headerNav.links.map((link) => (
+                  <li key={link.label}>
+                    <Link
+                      href={link.href}
+                      aria-current={currentFor(pathname, link.href)}
+                      className="rounded-sm text-text-2 transition-colors hover:text-text-1 [&[aria-current]]:text-text-1"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
 
-        <div className="ml-auto hidden items-center gap-2.5 md:flex">
-          <Button variant="ghost" href={config.signIn.href} size="medium" className="text-[15px] font-medium transition-colors duration-300">
-            {config.signIn.label}
-          </Button>
-          <Button
-            variant={onCobalt ? "white" : "primary"}
-            href={config.cta.href}
-            size="medium"
-            className="h-[42px] px-5 transition-colors duration-300"
-          >
-            {config.cta.label}
-          </Button>
-        </div>
+            <div className="ml-auto hidden items-center gap-2 min-[900px]:ml-0 min-[900px]:flex">
+              {headerNav.logIn && (
+                <a href={headerNav.logIn.href} className={btn("link", "h-9")}>
+                  {headerNav.logIn.label}
+                </a>
+              )}
+              <Link href={headerNav.cta.href} className={btn("primary", "h-9")}>
+                {headerNav.cta.label}
+              </Link>
+            </div>
 
-        <IconButton
-          className="-mr-2.5 ml-auto text-fg transition-colors duration-300 md:hidden"
-          aria-label="Open menu"
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          onClick={() => setOpen(true)}
-        >
-          <Icons.Menu size={22} />
-        </IconButton>
+            <IconButton
+              className="-mr-2 ml-auto text-text-1 min-[900px]:hidden"
+              aria-label="Open menu"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
+              onClick={() => setOpen(true)}
+            >
+              <Icons.Menu size={22} />
+            </IconButton>
+          </>
+        )}
       </div>
 
-      <Drawer
-        id="mobile-menu"
-        anchor="right"
-        open={open}
-        onClose={() => setOpen(false)}
-        slotProps={{ paper: { className: "bg-cobalt-500 text-white", "aria-label": "Menu" } }}
-      >
-        <div data-theme="cobalt" className="flex h-full flex-col px-5 pb-8">
-          <div className="flex h-[60px] items-center justify-between">
-            <Logo tone="onCobalt" size={28} />
-            <IconButton className="-mr-2.5" aria-label="Close menu" onClick={() => setOpen(false)}>
-              <Icons.Close size={22} />
-            </IconButton>
+      {variant === "site" && (
+        <Drawer
+          id="mobile-menu"
+          anchor="right"
+          open={open}
+          onClose={() => setOpen(false)}
+          slotProps={{ paper: { "aria-label": "Menu" } }}
+        >
+          <div className="flex h-full flex-col px-5 pb-8">
+            <div className="flex h-16 items-center justify-between">
+              <Logo tone="dark" size={26} />
+              <IconButton className="-mr-2" aria-label="Close menu" onClick={() => setOpen(false)}>
+                <Icons.Close size={22} />
+              </IconButton>
+            </div>
+            <nav aria-label="Main" className="mt-4">
+              <ul className="flex flex-col">
+                {headerNav.links.map((link) => (
+                  <li key={link.label} className="border-t border-line">
+                    <Link
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={currentFor(pathname, link.href)}
+                      className="flex h-14 items-center text-[22px] font-semibold tracking-[-0.03em]"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+                {headerNav.logIn && (
+                  <li className="border-t border-line">
+                    <a href={headerNav.logIn.href} className="flex h-14 items-center text-[22px] font-semibold tracking-[-0.03em]">
+                      {headerNav.logIn.label}
+                    </a>
+                  </li>
+                )}
+              </ul>
+            </nav>
+            <Link href={headerNav.cta.href} onClick={() => setOpen(false)} className={btn("primary", "mt-auto w-full")}>
+              {headerNav.cta.label}
+            </Link>
           </div>
-          <nav aria-label="Main" className="mt-6">
-            <ul className="flex flex-col">
-              {config.links.map((link) => (
-                <li key={link.href} className="border-t border-white/20">
-                  <Link
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    aria-current={pathname === link.href ? "page" : undefined}
-                    className={clsx("flex h-14 items-center text-2xl font-semibold tracking-[-0.02em]")}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              <li className="border-t border-white/20">
-                <a href={config.signIn.href} className="flex h-14 items-center text-2xl font-semibold tracking-[-0.02em]">
-                  {config.signIn.label}
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <Button variant="white" size="large" href={config.cta.href} className="mt-auto h-[52px]" fullWidth onClick={() => setOpen(false)}>
-            {config.cta.label}
-          </Button>
-        </div>
-      </Drawer>
+        </Drawer>
+      )}
     </header>
   );
 };

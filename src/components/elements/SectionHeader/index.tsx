@@ -21,10 +21,10 @@ export function SectionHeader({ overline, title, titleId, lede, aside, className
     <div className={clsx("flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-16", className)}>
       <div className="flex max-w-[780px] flex-col gap-4 md:gap-5">
         <Overline>{overline}</Overline>
-        <Title as="h2" variant="h1" id={titleId}>
+        <Title as="h2" variant="h2" id={titleId}>
           {title}
         </Title>
-        {lede && <p className="text-body-lg text-fg-muted md:text-lg">{lede}</p>}
+        {lede && <p className="max-w-[620px] text-body-lg text-text-2">{lede}</p>}
       </div>
       {aside && <div className="shrink-0">{aside}</div>}
     </div>

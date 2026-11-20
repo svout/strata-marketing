@@ -1,0 +1,75 @@
+:root {
+  /* Strata v2 — generated from tokens.json */
+  --color-bg: #08090A;
+  --color-surface-1: #0E0F11;
+  --color-surface-2: #141518;
+  --color-surface-3: #1C1D21;
+  --color-line: #1F2125;
+  --color-line-strong: #2A2C31;
+  --color-edge: rgba(255,255,255,0.06);
+  --color-edge-strong: rgba(255,255,255,0.08);
+  --color-text-1: #F7F8F8;
+  --color-text-2: #8A8F98;
+  --color-text-3: #62666D;
+  --color-cobalt: #2B59FF;
+  --color-cobalt-light: #729EFF;
+  --color-cobalt-pale: #A1BBFF;
+  --color-cobalt-deep: #1A38BF;
+  --color-pattern-pill: #4169FF;
+  --color-pattern-pill-ink: #161B2E;
+  --color-approved: #56B683;
+  --color-approved-bg: rgba(86,182,131,0.14);
+  --color-review: #FFCC00;
+  --color-review-bg: rgba(255,204,0,0.12);
+  --color-blocked: #F18169;
+  --color-blocked-bg: rgba(241,129,105,0.14);
+  --color-info-bg: rgba(43,89,255,0.20);
+  --color-neutral-bg: rgba(255,255,255,0.06);
+  --color-note-yellow: #FFE58A;
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
+  --font-wordmark: 'Instrument Sans', 'Geist', sans-serif;
+  --radius-tag: 4px;
+  --radius-chip: 6px;
+  --radius-button: 8px;
+  --radius-input: 8px;
+  --radius-card: 14px;
+  --radius-panel: 16px;
+  --radius-panel-lg: 20px;
+  --radius-feature-panel: 24px;
+  --radius-hero-frame: 24px;
+  --space-container: 1200px;
+  --space-gutter: 120px;
+  --space-section-y: 120px;
+  --space-grid-gap: 16px;
+  --shadow-edge: inset 0 0 0 1px rgba(255,255,255,0.06);
+  --shadow-float: inset 0 0 0 1px rgba(255,255,255,0.08), 0 40px 100px -20px rgba(0,0,0,0.9);
+  --shadow-glow-cobalt: 0 0 60px rgba(43,89,255,0.45);
+  --shadow-product-window: inset 0 0 0 1px rgba(255,255,255,0.08), 0 -20px 80px rgba(43,89,255,0.12);
+}
+
+/* Fonts: Geist + Geist Mono (Google Fonts or the `geist` npm package), Instrument Sans 600 for the wordmark only */
+html { background: var(--color-bg); color: var(--color-text-1); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+
+/* Two-tone heading: white lead + grey follow-on (or grey lead + white answer) */
+.h-display { font-size: 76px; font-weight: 700; letter-spacing: -0.055em; line-height: 1; }
+.h2 { font-size: 44px; font-weight: 700; letter-spacing: -0.05em; line-height: 1.04; }
+.h2 .muted, .h-display .muted { color: var(--color-text-2); }
+.lede { font-size: 16px; line-height: 1.6; color: var(--color-text-2); }
+
+.btn { height: 40px; padding: 0 16px; border-radius: 8px; font: 500 14px/1 var(--font-sans); display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; }
+.btn-primary { background: #fff; color: var(--color-bg); }
+.btn-accent { background: var(--color-cobalt); color: #fff; }
+.btn-ghost { background: var(--color-surface-3); color: var(--color-text-1); box-shadow: inset 0 0 0 1px var(--color-line-strong); }
+.btn-link { color: var(--color-text-1); padding: 0 4px; } .btn-link::after { content: "›"; color: var(--color-text-2); }
+
+.chip { display: inline-flex; align-items: center; gap: 6px; height: 22px; padding: 0 8px; border-radius: 6px; font-size: 12px; font-weight: 500; }
+.chip::before { content: ""; width: 6px; height: 6px; border-radius: 3px; background: currentColor; }
+.chip-approved { background: var(--color-approved-bg); color: var(--color-approved); }
+.chip-review { background: var(--color-review-bg); color: var(--color-review); }
+.chip-blocked { background: var(--color-blocked-bg); color: var(--color-blocked); }
+.chip-info { background: var(--color-info-bg); color: var(--color-cobalt-pale); }
+.tag { display: inline-flex; align-items: center; height: 20px; padding: 0 6px; border-radius: 4px; font: 11px var(--font-mono); }
+
+.card { background: var(--color-surface-1); border-radius: 16px; box-shadow: var(--shadow-edge); }
+.hairline { height: 1px; background: var(--color-line); }

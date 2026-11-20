@@ -92,6 +92,34 @@ const Play = (p: IconProps) => (
   </Base>
 );
 
+/** Link: two chain halves (copy link) */
+const Link = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1" />
+    <path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1" />
+  </Base>
+);
+/** LinkedIn, drawn in the same line style as the set (share and follow links) */
+const LinkedIn = (p: IconProps) => (
+  <Base {...p}>
+    <rect x="3" y="3" width="18" height="18" rx="4" />
+    <path d="M8 10.5V17M8 7.5v.01M12 17v-6.5M12 13.5a2.5 2.5 0 0 1 5 0V17" />
+  </Base>
+);
+/** X (formerly Twitter) */
+const X = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M4 4h4.5L20 20h-4.5z" />
+    <path d="M19.5 4l-6.6 7.2M4.5 20l6.6-7.2" />
+  </Base>
+);
+/** RSS feed */
+const Rss = (p: IconProps) => (
+  <Base {...p}>
+    <path d="M5 19h.01M5 12a7 7 0 0 1 7 7M5 5a14 14 0 0 1 14 14" />
+  </Base>
+);
+
 export const Icons = {
   Menu,
   Close,
@@ -105,4 +133,8 @@ export const Icons = {
   Download,
   Pause,
   Play,
+  Link,
+  LinkedIn,
+  X,
+  Rss,
 };

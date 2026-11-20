@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Strata v2 · W7 FAQ</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&amp;family=Geist+Mono:wght@400;500&amp;family=Instrument+Sans:wght@600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0}</style>
+</helmet>
+<div style="position: relative; width: 1440px; height: 900px; box-sizing: border-box; background: #08090A; color: #F7F8F8; font-family: 'Geist', system-ui, sans-serif; line-height: 1.5; overflow: hidden;">
+
+<sc-if value="{{notes}}" hint-placeholder-val="{{ true }}"><a href="V2Index.dc.html" style="position: absolute; left: 16px; top: 16px; z-index: 20; background: #FFE58A; color: #0B0D12; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; text-decoration: none; font-family: 'Geist', system-ui, sans-serif;">W7 FAQ · Scope FAQ layout. Answers in [brackets] need product decisions · ← Index</a></sc-if>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; padding: 0 120px; display: flex; flex-direction: column; justify-content: center; gap: 56px; background: #08090A;"><div style="display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 80px;">
+<div style="display: flex; flex-direction: column; gap: 24px;"><h2 style="margin: 0; max-width: 400px; text-align: left; font-size: 44px; font-weight: 700; letter-spacing: -0.05em; line-height: 1.04;"><span style="color: #F7F8F8;">Questions,</span><br><span style="color: #8A8F98;">answered.</span></h2><p style="margin: 0; max-width: 360px; text-align: left; color: #8A8F98; font-size: 16px; line-height: 1.6;">Can’t find what you need? Talk to the people building Strata.</p><div style="display: flex; gap: 10px;"><a href="#" style="height: 40px; padding: 0 16px; border-radius: 8px; background: #1C1D21; color: #F7F8F8; box-shadow: inset 0 0 0 1px #2A2C31; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; font-family: 'Geist', system-ui, sans-serif;">Talk to us</a><a href="#" style="height: 40px; border-radius: 8px; background: transparent; color: #F7F8F8; padding: 0 4px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 6px; text-decoration: none; white-space: nowrap; font-family: 'Geist', system-ui, sans-serif;">Read the docs <span style="color: #8A8F98;">›</span></a></div></div>
+<div style="border-bottom: 1px solid #1F2125;"><div style="padding: 22px 0; border-top: 1px solid #1F2125;"><div style="display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500;">Does Strata hold our money?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8F98" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M6 6l12 12M18 6L6 18"></path></svg></div><p style="margin: 10px 0 0; font-size: 15px; color: #8A8F98; max-width: 560px;">No. Strata decides whether a payment may go ahead. Your existing payment provider still moves the money.</p></div><div style="padding: 22px 0; border-top: 1px solid #1F2125;"><div style="display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500;">Which payment providers does it work with?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8F98" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></div></div><div style="padding: 22px 0; border-top: 1px solid #1F2125;"><div style="display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500;">Can a person override a decision?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8F98" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></div></div><div style="padding: 22px 0; border-top: 1px solid #1F2125;"><div style="display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500;">How is the ledger tamper-evident?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8F98" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></div></div><div style="padding: 22px 0; border-top: 1px solid #1F2125;"><div style="display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500;">What happens if Strata can’t be reached?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8F98" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></div></div><div style="padding: 22px 0; border-top: 1px solid #1F2125;"><div style="display: flex; justify-content: space-between; align-items: center; font-size: 17px; font-weight: 500;">Is there a test mode?<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8F98" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink: 0;"><path d="M12 5v14M5 12h14"></path></svg></div></div></div></div></div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"notes": {"editor": "boolean", "default": true}, "$preview": {"width": 1440, "height": 900}}'>
+class Component extends DCLogic {
+renderVals() {
+return { notes: this.props.notes ?? true };
+}
+}
+</script>
+</body>
+</html>

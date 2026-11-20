@@ -4,18 +4,19 @@ import type { CodeLine } from "@/types/home";
 /**
  * Highlighted code for dark surfaces. Lines are [text, kind] tokens from
  * the content files, so there's no highlighter library and the colours
- * come from the brand palette:
- * strings mint, numbers amber, keys cobalt-300, comments mist.
+ * come from the v2 palette (as in the Home W6 code card):
+ * strings approved-green, numbers review-yellow, keys cobalt-pale,
+ * comments text-3.
  *
  * The <pre> is focusable and scrolls sideways on its own, so long lines
  * never make the page scroll horizontally.
  */
 const tokenColour = {
-  plain: "text-[#C9CBD1]",
-  comment: "text-mist",
-  str: "text-mint",
-  num: "text-amber",
-  key: "text-cobalt-300",
+  plain: "text-text-1",
+  comment: "text-text-3",
+  str: "text-approved",
+  num: "text-review",
+  key: "text-cobalt-pale",
 } as const;
 
 type CodeBlockProps = {
@@ -44,7 +45,7 @@ export function CodeBlock({ lines, text, label, className }: CodeBlockProps) {
                 ))}
               </span>
             ))
-          : <span className="text-[#E4E6EB]">{text}</span>}
+          : <span className="text-text-1">{text}</span>}
       </code>
     </pre>
   );

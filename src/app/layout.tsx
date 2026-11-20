@@ -1,23 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 import Providers from "@/components/containers/Providers";
 import { JsonLd, organizationSchema, websiteSchema } from "@/lib/jsonLd";
 import { COMPANY, isFilled } from "@/config/company";
 import { IS_INDEXABLE, SITE_URL } from "@/config/site";
 import "./globals.css";
 
-// Brand Guidelines → Typography: Instrument Sans 400/500/600, Plex Mono for data
-const instrumentSans = Instrument_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
+// Design System v2 → Type: Geist for everything, Geist Mono for data and
+// code, Instrument Sans 600 only for the "strata" wordmark.
+// All three are self-hosted (the `geist` package and @fontsource), so the
+// build never fetches Google Fonts. next/font/google + Turbopack fails on
+// Geist's Google URL ("queries have exactly one entry").
+const wordmark = localFont({
+  src: "../../node_modules/@fontsource/instrument-sans/files/instrument-sans-latin-600-normal.woff2",
+  weight: "600",
+  style: "normal",
   variable: "--font-instrument-sans",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-mono",
   display: "swap",
 });
 
@@ -50,14 +50,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#2B59FF",
+  themeColor: "#08090A",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-GB" className={`${instrumentSans.variable} ${plexMono.variable}`}>
+    <html lang="en-GB" className={`${GeistSans.variable} ${GeistMono.variable} ${wordmark.variable}`}>
       <body>
         <Providers>{children}</Providers>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />

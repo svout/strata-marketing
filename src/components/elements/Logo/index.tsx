@@ -33,7 +33,7 @@ export function Logo({ tone = "light", size = 30, className }: { tone?: Tone; si
     <span className={clsx("inline-flex items-center gap-2.5", className)}>
       <LogoMark size={size} tile={t.tile} bars={t.bars} />
       <span
-        className={clsx("font-semibold leading-none tracking-[-0.05em]", t.text)}
+        className={clsx("font-wordmark font-semibold leading-none tracking-[-0.05em]", t.text)}
         style={{ fontSize: Math.round(size * 0.73) }}
       >
         strata

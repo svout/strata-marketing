@@ -155,6 +155,7 @@ export const productFaq = {
 };
 
 export const productCta = {
-  title: "See it on your own agents.",
-  action: { label: "Request demo", href: "/demo" },
+  title: ["See it on your own agents.", "We'll set up a mandate on the call."] as [string, string],
+  primary: { label: "Request demo", href: "/demo" },
+  secondary: { label: "See pricing", href: "/pricing" },
 };

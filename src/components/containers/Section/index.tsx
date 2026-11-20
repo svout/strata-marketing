@@ -2,23 +2,20 @@ import clsx from "clsx";
 import { SectionInterface, SectionTone } from "@/types/section";
 
 /**
- * A full-bleed page section. `tone` picks the background and, for ink
- * and cobalt, switches the token set (data-theme) so text, lines and
- * chips inside use their dark values without extra props.
- *
- * Content width follows layout/grid: 12 col · margin 80 @1440 → 1280 px.
+ * A full-bleed page section. v2 is dark everywhere: every tone sits on
+ * the page background and sections are told apart by spacing. `cobalt`
+ * is kept for the rare cobalt surface. The content column is 1200 px (v2 spec).
  */
 const tones: Record<SectionTone, { bg: string; theme?: string }> = {
-  white: { bg: "bg-elevated" },
-  paper: { bg: "bg-surface" },
-  stone: { bg: "bg-canvas" },
-  ink: { bg: "bg-ink", theme: "dark" },
-  // bg-surface resolves to #14161C inside data-theme="dark"
-  ink2: { bg: "bg-surface", theme: "dark" },
+  white: { bg: "bg-bg" },
+  paper: { bg: "bg-bg" },
+  stone: { bg: "bg-bg" },
+  ink: { bg: "bg-bg" },
+  ink2: { bg: "bg-bg" },
   cobalt: { bg: "bg-cobalt-500", theme: "cobalt" },
 };
 
-export const containerClass = "mx-auto w-full max-w-[1440px] px-5 md:px-10 xl:px-20";
+export const containerClass = "mx-auto w-full max-w-[1240px] px-5";
 
 export default function Section({
   children,
@@ -36,7 +33,7 @@ export default function Section({
       id={id}
       aria-labelledby={labelledBy}
       data-theme={t.theme}
-      className={clsx("relative w-full", t.bg, usePaddings && "py-16 md:py-24 lg:py-32", className)}
+      className={clsx("relative w-full", t.bg, usePaddings && "py-20 md:py-[110px]", className)}
     >
       {contained ? <div className={clsx(containerClass, innerClassName)}>{children}</div> : children}
     </section>
