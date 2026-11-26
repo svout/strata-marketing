@@ -4,8 +4,8 @@ import { AUTHOR } from "@/config/blog";
 /**
  * Site navigation (Website v2 spec → W1 nav and W9 footer).
  *
- * Header: Product · How it works · Developers · FAQ · Pricing. "How it
- * works" and "FAQ" are Home sections; the rest have their own pages.
+ * Header: Product · How it works · Developers · FAQ · Pricing. All five
+ * are sections of the one-page Home; Security, Blog and Demo are pages.
  * A link with no `href` has no destination yet: it renders as plain text,
  * so nobody lands on a dead "#" link.
  */
@@ -13,15 +13,15 @@ export type NavLink = { label: string; href?: string };
 
 export const headerNav = {
   links: [
-    { label: "Product", href: "/product" },
+    { label: "Product", href: "/#product" },
     { label: "How it works", href: "/#how-it-works" },
-    { label: "Developers", href: "/developers" },
+    { label: "Developers", href: "/#developers" },
     { label: "FAQ", href: "/#faq" },
-    { label: "Pricing", href: "/pricing" },
+    { label: "Pricing", href: "/#pricing" },
   ] satisfies NavLink[],
   /** Shown once the console URL is filled in config/company.ts */
   logIn: isFilled(COMPANY.appUrl) ? { label: "Log in", href: COMPANY.appUrl } : null,
-  cta: { label: "Get started", href: "/pricing" },
+  cta: { label: "Get started", href: "/#pricing" },
 };
 
 const filled = (url: string) => (isFilled(url) ? url : undefined);
@@ -32,20 +32,20 @@ export const footerNav = {
     {
       title: "Product",
       links: [
-        { label: "Mandates", href: "/product#mandate" },
-        { label: "Risk scoring", href: "/product#risk" },
+        { label: "Mandates", href: "/#product" },
+        { label: "Risk scoring", href: "/#how-it-works" },
         { label: "Human review", href: "/#review" },
-        { label: "Ledger", href: "/product#ledger" },
+        { label: "Ledger", href: "/#product" },
         { label: "Security", href: "/security" },
-        { label: "Pricing", href: "/pricing" },
+        { label: "Pricing", href: "/#pricing" },
       ],
     },
     {
       title: "Developers",
       links: [
-        { label: "Docs", href: "/developers" },
-        { label: "API reference", href: "/developers#api" },
-        { label: "SDKs", href: "/developers#api" },
+        { label: "Quickstart", href: "/#developers" },
+        { label: "Docs" /* [docs URL] */ },
+        { label: "API reference" /* [API reference URL] */ },
         { label: "Status" /* [status page URL] */ },
       ],
     },

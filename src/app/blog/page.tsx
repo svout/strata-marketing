@@ -47,7 +47,7 @@ export default function BlogIndexPage() {
               <p className="max-w-[560px] text-body-lg text-fg-muted">
                 Engineering notes from building Strata&apos;s payment core will appear here, alongside their LinkedIn versions.
               </p>
-              <Link href="/product" className="mt-2 inline-flex items-center gap-1.5 rounded-sm font-semibold text-brand hover:underline">
+              <Link href="/#how-it-works" className="mt-2 inline-flex items-center gap-1.5 rounded-sm font-semibold text-brand hover:underline">
                 See how Strata works <Icons.ArrowRight size={18} />
               </Link>
             </div>

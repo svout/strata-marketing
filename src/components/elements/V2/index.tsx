@@ -206,6 +206,7 @@ export function V2Section({
   id,
   labelledBy,
   hairline = false,
+  wide = false,
   className,
   innerClassName,
   children,
@@ -213,13 +214,15 @@ export function V2Section({
   id?: string;
   labelledBy?: string;
   hairline?: boolean;
+  /** 1320 px content column instead of 1200 (pricing cards) */
+  wide?: boolean;
   className?: string;
   innerClassName?: string;
   children: ReactNode;
 }) {
   return (
     <section id={id} aria-labelledby={labelledBy} className={clsx("relative bg-bg", className)}>
-      <div className={clsx(v2Container, "relative")}>
+      <div className={clsx(wide ? v2ContainerWide : v2Container, "relative")}>
         {hairline && <Hairline />}
         <div className={clsx("pb-20 pt-20 md:pb-[110px] md:pt-[120px]", innerClassName)}>{children}</div>
       </div>
@@ -229,3 +232,5 @@ export function V2Section({
 
 /** The v2 content column: 1200 px, 20 px gutters */
 export const v2Container = "mx-auto w-full max-w-[1240px] px-5";
+/** Wider column for the pricing row: 1320 px, 20 px gutters */
+export const v2ContainerWide = "mx-auto w-full max-w-[1360px] px-5";

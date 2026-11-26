@@ -1,8 +1,6 @@
 import { COMPANY } from "@/config/company";
 import { absoluteUrl } from "@/config/site";
 import { homeMeta } from "@/constraints/home";
-import { productMeta } from "@/constraints/product";
-import { devMeta } from "@/constraints/developers";
 import { securityMeta } from "@/constraints/security";
 import { demoMeta } from "@/constraints/demo";
 import { blogMeta } from "@/config/blog";
@@ -17,10 +15,7 @@ import { getPublishedPosts } from "@/lib/blog";
 export const dynamic = "force-static";
 
 const pages = [
-  { name: "How it works", path: "/product", meta: productMeta },
-  { name: "Developers", path: "/developers", meta: devMeta },
   { name: "Security", path: "/security", meta: securityMeta },
-  { name: "Pricing", path: "/pricing", meta: pricingMeta },
   { name: "Blog", path: "/blog", meta: blogMeta },
   { name: "Request a demo", path: "/demo", meta: demoMeta },
 ];
@@ -36,7 +31,8 @@ export function GET() {
     "",
     "## Pages",
     "",
-    `- [Home](${absoluteUrl("/")}): ${homeMeta.title}`,
+    `- [Home](${absoluteUrl("/")}): ${homeMeta.title}. One page: how it works, features, developers (API), FAQ and pricing.`,
+    `- [Pricing](${absoluteUrl("/#pricing")}): ${pricingMeta.description}`,
     ...pages.map((p) => `- [${p.name}](${absoluteUrl(p.path)}): ${p.meta.description}`),
     "",
     ...(posts.length

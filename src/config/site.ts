@@ -29,10 +29,7 @@ type SiteRoute = {
 /** Every public page, in site-map order. Feeds sitemap.xml and llms.txt. */
 export const ROUTES: SiteRoute[] = [
   { path: "/", name: "Home", changeFrequency: "weekly", priority: 1 },
-  { path: "/product", name: "How it works", changeFrequency: "monthly", priority: 0.9 },
-  { path: "/developers", name: "Developers", changeFrequency: "monthly", priority: 0.8 },
   { path: "/security", name: "Security", changeFrequency: "monthly", priority: 0.7 },
-  { path: "/pricing", name: "Pricing", changeFrequency: "monthly", priority: 0.8 },
   { path: "/blog", name: "Blog", changeFrequency: "weekly", priority: 0.7 },
   { path: "/demo", name: "Request a demo", changeFrequency: "yearly", priority: 0.6 },
 ];

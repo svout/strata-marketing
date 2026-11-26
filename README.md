@@ -27,7 +27,7 @@ src/
 │  │  ├─ Home/           W1 Hero, W2 Connect, W3 HowItDecides, W4 Review,
 │  │  │                  W5 Features, W6 Developers, W8 Pricing
 │  │  ├─ Faq (W7), ClosingBand (W9), PageHero, Plans: shared by every page
-│  │  └─ Product*, Dev*, SecurityPage, Pricing, Blog, DemoPage: page sections
+│  │  └─ SecurityPage, Blog, DemoPage: page sections
 │  └─ icons/             v1 line icons (index.tsx) and the v2 set (v2.tsx, from docs/…/icons)
 ├─ config/               company.ts, navigation.ts (header + footer), tokens.ts, site.ts, blog.ts
 ├─ constraints/          Copy and sample data per page (home.ts is the v2 Home)
@@ -76,6 +76,9 @@ product mock-ups is sample data. Prices live in `src/constraints/pricing.ts` (`P
   page yet (About, Status, Terms, Privacy, GitHub…) render as plain text, not dead links.
   Security is added to the footer's Product column so the page stays reachable.
 - **Canonical:** pages use their own path (e.g. `/`), not `/gb`; there's no locale routing.
+- **One-page site:** Product, Developers and Pricing are sections of Home (`/#product`,
+  `/#developers`, `/#pricing`), not separate pages. The old `/product`, `/developers` and
+  `/pricing` URLs redirect there (308, in `next.config.ts`). Pages: Home, Security, Blog, Demo.
 
 ## Request demo form
 
@@ -96,7 +99,7 @@ answers 503 so the form shows an error instead of a false "sent".
   built from `ROUTES` in `src/config/site.ts`; add new pages there. Each route has an
   `opengraph-image.tsx` (shared design in `src/lib/og.tsx`).
 - **Structured data** (`src/lib/jsonLd.tsx`): Organization and WebSite on every page,
-  BreadcrumbList on inner pages, SoftwareApplication on `/product`, FAQPage for the FAQs.
+  BreadcrumbList on inner pages, SoftwareApplication on Home, FAQPage for the FAQs.
   Placeholder values and unanswered FAQ items are left out automatically. Only mark up what
   is visible on the page.
 

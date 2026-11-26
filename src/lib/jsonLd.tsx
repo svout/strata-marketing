@@ -72,7 +72,7 @@ export function softwareSchema(features: string[]): Thing {
     operatingSystem: "Web",
     featureList: features.filter(isFilled),
     publisher: { "@id": ORG_ID },
-    ...(HAS_SITE_URL && { url: absoluteUrl("/product") }),
+    ...(HAS_SITE_URL && { url: absoluteUrl("/") }),
   };
 }
 

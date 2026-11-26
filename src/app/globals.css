@@ -531,3 +531,54 @@
     color: var(--color-fg-muted);
   }
 }
+
+/* ── W2 · Connect: rail → panel lines ───────────────────────────────
+   Paths use pathLength="1", so dash values are fractions of the line.
+   --draw-ms: how long a line takes to reach the panel. */
+.rail-draw {
+  stroke-dasharray: 1;
+  animation: rail-draw var(--draw-ms, 900ms) cubic-bezier(0.55, 0, 0.35, 1) both;
+}
+.rail-fade {
+  animation: rail-fade 500ms ease-out both;
+}
+.rail-hit {
+  animation: rail-hit 700ms ease-out var(--draw-ms, 900ms) both;
+}
+@keyframes rail-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes rail-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes rail-hit {
+  0% { opacity: 0; transform: scale(0.6); }
+  40% { opacity: 1; transform: scale(1.6); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.rail-glow {
+  animation: rail-glow 600ms ease-out var(--draw-ms, 900ms) both;
+}
+@keyframes rail-glow {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Connect panel content: lifts in once the rail's line has reached the panel.
+   --draw-ms is 0 on phones (no line there); --i staggers the pieces. */
+.connect-in {
+  animation: connect-in 520ms cubic-bezier(0.2, 0.7, 0.2, 1) calc(var(--draw-ms, 0ms) + var(--i, 0) * 70ms) both;
+}
+@keyframes connect-in {
+  from { opacity: 0; transform: translateY(10px); filter: blur(4px); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .connect-in,
+  .rail-draw,
+  .rail-hit,
+  .rail-glow {
+    animation-delay: 0ms !important;
+  }
+}

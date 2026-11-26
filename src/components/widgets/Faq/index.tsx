@@ -42,8 +42,8 @@ const Faq = ({ id, title, lede = defaultLede, items, actions = true }: FaqProps)
             <Btn href="/demo" variant="ghost">
               Talk to us
             </Btn>
-            <Btn href="/developers" variant="link">
-              Read the docs
+            <Btn href="/#developers" variant="link">
+              See the API
             </Btn>
           </div>
         )}

@@ -5,7 +5,7 @@ type PageMeta = {
   /** Page title; the layout template appends " · Strata" unless `absolute` */
   title: string;
   description: string;
-  /** Route path, e.g. "/product". Becomes the canonical and og:url. */
+  /** Route path, e.g. "/security". Becomes the canonical and og:url. */
   path: string;
   absolute?: boolean;
 };

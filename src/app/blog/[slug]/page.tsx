@@ -52,7 +52,7 @@ export default async function BlogPostPage({ params }: Params) {
         id="post-cta-title"
         title={["Follow the build.", "New notes every few weeks."]}
         primary={follow ? { label: "Follow on LinkedIn", href: follow } : { label: "Subscribe by RSS", href: "/blog/rss.xml" }}
-        secondary={{ label: "See how Strata works", href: "/product" }}
+        secondary={{ label: "See how Strata works", href: "/#how-it-works" }}
       />
       <JsonLd
         data={[

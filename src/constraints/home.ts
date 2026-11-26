@@ -25,7 +25,7 @@ export const hero = {
   headlineAccent: "You set the limits.",
   lede: "Spending controls for AI agents. Every payment is checked against your rules, scored for risk and recorded before any money moves.",
   primary: { label: "Request demo", href: "/demo" },
-  secondary: { label: "Read the docs", href: "/developers" },
+  secondary: { label: "See the API", href: "/#developers" },
 };
 
 export type DecisionRow = {
@@ -67,34 +67,176 @@ export const productWindow = {
 
 /* ── W2 · Connect ──────────────────────────────────────────────────── */
 
+/** One row in a rail's sample card: what Strata did, and why. */
+export type ConnectRow = { icon: V2IconName; name: string; meta: string; status: { label: string; tone: Signal } };
+
+export type ConnectRail = {
+  label: string;
+  icon: V2IconName;
+  /** Line, tile glow and panel accent colour for this rail */
+  color: string;
+  /** Panel, left: bold lead + grey body, then a button */
+  lead: string;
+  body: string;
+  cta: { label: string; href: string };
+  /** Panel, right: a SAMPLE card showing Strata on this rail */
+  card: { title: string; label: string; rows: ConnectRow[]; add: string };
+};
+
+/**
+ * Categories, not partner logos (real logos only once a partnership
+ * exists). Every card is SAMPLE data: amounts, card numbers and rules are
+ * illustrations; [brackets] are for the owner to fill in.
+ */
 export const connect = {
   title: ["Start controlling agent spend in minutes.", "Put Strata in front of the rails your agents already pay through."] as [string, string],
-  /** Categories, not partner logos (real logos only once a partnership exists) */
+  sample: "Sample data",
   rails: [
-    { label: "Card issuing", icon: "Card" },
-    { label: "Open banking", icon: "Bank" },
-    { label: "Payouts", icon: "Send" },
-    { label: "Invoices", icon: "Invoice" },
-    { label: "Wallets", icon: "Wallet" },
-    { label: "Subscriptions", icon: "Repeat" },
-    { label: "Marketplaces", icon: "Store" },
-    { label: "Payment links", icon: "Link" },
-  ] satisfies { label: string; icon: V2IconName }[],
-  panel: {
-    lead: "Strata in test mode. Every feature, free.",
-    body: "Connect a sandbox account, register an agent and watch real decisions on fake money.",
-    cta: { label: "Get test keys", href: "/developers#quickstart" },
-  },
-  manager: {
-    title: "Connection manager",
-    label: "Workspaces",
-    rows: [
-      { name: "Production", meta: "3 agents · live" },
-      { name: "Test mode", meta: "5 agents · sk_test_", selected: true },
-      { name: "Staging", meta: "2 agents" },
-    ],
-    add: "Add workspace",
-  },
+    {
+      label: "Card issuing",
+      icon: "Card",
+      color: "#729EFF",
+      lead: "Every card payment, checked first.",
+      body: "Give each agent its own virtual card. Strata checks every authorisation against that agent's mandate before it goes through.",
+      cta: { label: "See how mandates work", href: "/#product" },
+      card: {
+        title: "Agent cards",
+        label: "Virtual cards",
+        rows: [
+          { icon: "Card", name: "agt_travel-booker", meta: "•••• 4021 · £2,000 / month", status: { label: "Active", tone: "approved" } },
+          { icon: "Card", name: "agt_procure-bot", meta: "•••• 7783 · review over £5,000", status: { label: "Active", tone: "approved" } },
+          { icon: "Card", name: "agt_ops", meta: "•••• 1190 · £500 / month", status: { label: "Frozen", tone: "blocked" } },
+        ],
+        add: "Issue a card",
+      },
+    },
+    {
+      label: "Open banking",
+      icon: "Bank",
+      color: "#56B683",
+      lead: "Pay by bank, with a person on the big ones.",
+      body: "Connect your business account. Agents can start bank payments, and anything over your limit waits for someone to approve it.",
+      cta: { label: "Request demo", href: "/demo" },
+      card: {
+        title: "Bank payments",
+        label: "[Bank] · Operating account ··6610",
+        rows: [
+          { icon: "Bank", name: "Under £5,000", meta: "Known payees", status: { label: "Approve", tone: "approved" } },
+          { icon: "Usercheck", name: "Over £5,000", meta: "Finance lead approves", status: { label: "Review", tone: "review" } },
+          { icon: "Users", name: "New payee", meta: "First payment to them", status: { label: "Review", tone: "review" } },
+        ],
+        add: "Add an account",
+      },
+    },
+    {
+      label: "Payouts",
+      icon: "Send",
+      color: "#FFCC00",
+      lead: "Money only goes to people you know.",
+      body: "Agents pay out to approved payees only. New payees, and anything above the daily cap, are stopped until a person says yes.",
+      cta: { label: "Get test keys", href: "/demo" },
+      card: {
+        title: "Payout rules",
+        label: "agt_support-refunds",
+        rows: [
+          { icon: "Users", name: "Approved payees", meta: "From your payee list", status: { label: "Allowed", tone: "approved" } },
+          { icon: "Activity", name: "Daily cap", meta: "£10,000 a day", status: { label: "On", tone: "info" } },
+          { icon: "X", name: "Unknown payee", meta: "Not on the list", status: { label: "Blocked", tone: "blocked" } },
+        ],
+        add: "Add a payee",
+      },
+    },
+    {
+      label: "Invoices",
+      icon: "Invoice",
+      color: "#F18169",
+      lead: "Pay the invoice, not the scam.",
+      body: "Before an agent pays a bill, Strata checks the supplier, the amount and the bank details against what it has seen before.",
+      cta: { label: "See how it decides", href: "/#how-it-works" },
+      card: {
+        title: "Invoice checks",
+        label: "Today",
+        rows: [
+          { icon: "Invoice", name: "INV-2291 · [Supplier]", meta: "£1,240.00 · details match", status: { label: "Approved", tone: "approved" } },
+          { icon: "Invoice", name: "INV-2292 · [Supplier]", meta: "Bank details changed", status: { label: "Review", tone: "review" } },
+          { icon: "Invoice", name: "INV-2290 · [Supplier]", meta: "Already paid on 12 Nov", status: { label: "Blocked", tone: "blocked" } },
+        ],
+        add: "Connect accounts payable",
+      },
+    },
+    {
+      label: "Wallets",
+      icon: "Wallet",
+      color: "#B392F0",
+      lead: "Wallet spending, inside the lines.",
+      body: "Set how much an agent's wallet can send, how often and to whom. Strata checks every transfer before it goes out.",
+      cta: { label: "Request demo", href: "/demo" },
+      card: {
+        title: "Wallet limits",
+        label: "agt_ops wallet",
+        rows: [
+          { icon: "Wallet", name: "Per transfer", meta: "Up to £250", status: { label: "On", tone: "info" } },
+          { icon: "Activity", name: "Per day", meta: "Up to £1,000", status: { label: "On", tone: "info" } },
+          { icon: "Lock", name: "Unknown address", meta: "Not on the allow list", status: { label: "Blocked", tone: "blocked" } },
+        ],
+        add: "Add a limit",
+      },
+    },
+    {
+      label: "Subscriptions",
+      icon: "Repeat",
+      color: "#4FD1C5",
+      lead: "No surprise renewals.",
+      body: "Agents can sign up for the tools you've approved. Price rises and new sign-ups wait for a person first.",
+      cta: { label: "See the review flow", href: "/#review" },
+      card: {
+        title: "Subscriptions",
+        label: "Renewing this month",
+        rows: [
+          { icon: "Repeat", name: "[Design tool]", meta: "£24 / month · same price", status: { label: "Approved", tone: "approved" } },
+          { icon: "Repeat", name: "[Analytics tool]", meta: "£49 → £79 / month", status: { label: "Review", tone: "review" } },
+          { icon: "Repeat", name: "[Unknown app]", meta: "Not on the approved list", status: { label: "Blocked", tone: "blocked" } },
+        ],
+        add: "Approve a tool",
+      },
+    },
+    {
+      label: "Marketplaces",
+      icon: "Store",
+      color: "#F472B6",
+      lead: "Shop the marketplace, within budget.",
+      body: "Agents order only from the marketplaces you allow. Category, seller and basket limits are checked on every order.",
+      cta: { label: "See every feature", href: "/#product" },
+      card: {
+        title: "Marketplace orders",
+        label: "agt_procure-bot · this week",
+        rows: [
+          { icon: "Store", name: "Office supplies", meta: "£86.40 · [Marketplace]", status: { label: "Approved", tone: "approved" } },
+          { icon: "Store", name: "Bulk paper order", meta: "£2,900.00 · over basket limit", status: { label: "Review", tone: "review" } },
+          { icon: "Store", name: "Laptop", meta: "£640.00 · electronics not allowed", status: { label: "Blocked", tone: "blocked" } },
+        ],
+        add: "Add a marketplace",
+      },
+    },
+    {
+      label: "Payment links",
+      icon: "Link",
+      color: "#FF9F43",
+      lead: "Paying a link? Strata checks it first.",
+      body: "When an agent is sent a payment link, Strata checks who it pays and how much before any money moves.",
+      cta: { label: "Get test keys", href: "/demo" },
+      card: {
+        title: "Payment links",
+        label: "Received by agents",
+        rows: [
+          { icon: "Link", name: "[Supplier] deposit", meta: "£500.00 · known payee", status: { label: "Approved", tone: "approved" } },
+          { icon: "Link", name: "Event tickets", meta: "£1,200.00 · over the limit", status: { label: "Review", tone: "review" } },
+          { icon: "Link", name: "Unknown sender", meta: "Domain doesn't match", status: { label: "Blocked", tone: "blocked" } },
+        ],
+        add: "See all links",
+      },
+    },
+  ] satisfies ConnectRail[],
 };
 
 /* ── W3 · How it decides ───────────────────────────────────────────── */
@@ -173,7 +315,7 @@ export const decides = {
 export const review = {
   title: ["Approvals that come to you,", "not a dashboard you have to watch."] as [string, string],
   lede: "When a payment looks unusual, Strata pauses it and asks the right person, with the reasons, in one message.",
-  cta: { label: "See the review flow", href: "/product#risk" },
+  cta: { label: "See every feature", href: "/#product" },
   panel: {
     title: "Strata Review",
     waiting: "3 waiting",
@@ -278,7 +420,7 @@ const p = (t: string): CodeToken => ({ t });
 export const developers = {
   title: ["Built for the agent", "you are writing."] as [string, string],
   lede: "Put Strata in front of every payment with one call. Decisions, reasons and ledger IDs come straight back.",
-  cta: { label: "Read the quickstart", href: "/developers#quickstart" },
+  cta: { label: "Request test keys", href: "/demo" },
   window: "strata · quickstart",
   languages: [
     { id: "python", label: "Python", ready: true },
@@ -379,14 +521,14 @@ export const homeFaq: { title: [string, string]; lede: string; items: FaqItem[] 
 
 export const homePricing = {
   title: ["Simple plans that grow", "with your agents."] as [string, string],
-  footnote: "No card needed for Sandbox · cancel anytime · prices exclude VAT",
-  more: { label: "Compare every plan", href: "/pricing" },
+  lede: "Bring your own agents, subscribe to ours, or have one built for you.",
+  footnote: "All prices exclude VAT.",
 };
 
 /* ── W9 · Closing CTA ──────────────────────────────────────────────── */
 
 export const cta = {
   title: ["Give your agents a budget,", "not a blank cheque."] as [string, string],
-  primary: { label: "Get started", href: "/pricing" },
+  primary: { label: "Get started", href: "/#pricing" },
   secondary: { label: "Request demo", href: "/demo" },
 };
