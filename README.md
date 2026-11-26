@@ -31,7 +31,7 @@ src/
 │  └─ icons/             v1 line icons (index.tsx) and the v2 set (v2.tsx, from docs/…/icons)
 ├─ config/               company.ts, navigation.ts (header + footer), tokens.ts, site.ts, blog.ts
 ├─ constraints/          Copy and sample data per page (home.ts is the v2 Home)
-├─ hooks/                useInView, useReveal, usePrefersReducedMotion, useScrolled
+├─ hooks/                useInView, useReveal, usePrefersReducedMotion, useHeroProgress
 ├─ lib/                  theme.ts (MUI), ui.ts (button classes), og.tsx, seo.ts, jsonLd.tsx, blog.ts
 └─ types/
 ```

@@ -582,3 +582,49 @@
     animation-delay: 0ms !important;
   }
 }
+
+/* ── Hero → page transition (scope360-style) ──────────────────────────
+   --hero-p (0 → 1) and --header-top are written by useHeroProgress as the
+   page scrolls its first 220 px. The hero's dark fill grows from an inset,
+   rounded panel inside the cobalt frame to edge to edge; the header rides
+   its top edge, widens with it and fades its glass background in. */
+:root {
+  --hero-p: 0;
+  --frame-x: 8px;
+  --frame-top: 56px;
+  --frame-r: 20px;
+  --header-top: var(--frame-top);
+}
+@media (min-width: 768px) {
+  :root {
+    --frame-x: 16px;
+    --frame-top: 72px;
+    --frame-r: 24px;
+  }
+}
+.hero-fill {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  top: calc(var(--frame-top) * (1 - var(--hero-p)));
+  left: calc(var(--frame-x) * (1 - var(--hero-p)));
+  right: calc(var(--frame-x) * (1 - var(--hero-p)));
+  border-top-left-radius: calc(var(--frame-r) * (1 - var(--hero-p)));
+  border-top-right-radius: calc(var(--frame-r) * (1 - var(--hero-p)));
+  background: var(--color-bg);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, calc(0.06 * (1 - var(--hero-p))));
+  pointer-events: none;
+}
+/* The announcement pill fades as the fill closes over it */
+.hero-above {
+  opacity: calc(1 - var(--hero-p) * 1.6);
+}
+.site-header {
+  top: var(--header-top);
+  left: calc(var(--frame-x) * (1 - var(--hero-p)));
+  right: calc(var(--frame-x) * (1 - var(--hero-p)));
+  background-color: rgba(8, 9, 10, calc(0.8 * var(--hero-p)));
+  -webkit-backdrop-filter: blur(calc(12px * var(--hero-p)));
+  backdrop-filter: blur(calc(12px * var(--hero-p)));
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, calc(0.08 * var(--hero-p)));
+}

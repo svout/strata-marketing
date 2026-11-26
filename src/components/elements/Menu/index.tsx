@@ -3,13 +3,12 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import clsx from "clsx";
 import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import { headerNav } from "@/config/navigation";
 import { Logo } from "../Logo";
 import { Icons } from "@/components/icons";
-import { useScrolled } from "@/hooks/useScrolled";
+import { useHeroProgress } from "@/hooks/useHeroProgress";
 import { btn } from "@/lib/ui";
 
 /**
@@ -17,8 +16,10 @@ import { btn } from "@/lib/ui";
  *
  * At the top of a page it sits inside the hero's dark container: 72 px
  * high, 72 px down (56 on phones) and 16 px in from both sides, so it
- * reads as the top of that container. Once the page scrolls it becomes a
- * full-width sticky bar with rgba(8,9,10,.8) and a 12 px backdrop blur.
+ * reads as the top of that container. As the page scrolls it moves with
+ * the container's top edge while the container fills the frame, widening
+ * to full width and fading in an rgba(8,9,10,.8) background, 12 px blur
+ * and a bottom line (.site-header + useHeroProgress, scope360-style).
  *
  * Desktop: logo · centred links (text-2, 14 px, 32 px apart) · Log in
  * (link) + Get started (white). Below 900 px the links collapse into a
@@ -40,23 +41,13 @@ const currentFor = (pathname: string, href?: string) =>
 const Menu = ({ variant = "site" }: { variant?: "site" | "focus"; tone?: HeaderTone }) => {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const scrolled = useScrolled(24);
+  useHeroProgress();
 
   return (
     <header
-      className={clsx(
-        "fixed z-30 transition-[top,left,right,background-color,box-shadow] duration-300 ease-out",
-        scrolled
-          ? "inset-x-0 top-0 bg-[rgba(8,9,10,0.8)] shadow-[inset_0_-1px_0_var(--color-line)] backdrop-blur-[12px]"
-          : "left-2 right-2 top-14 bg-transparent md:left-4 md:right-4 md:top-[72px]",
-      )}
+      className="site-header fixed z-30"
     >
-      <div
-        className={clsx(
-          "mx-auto flex h-16 items-center gap-10 md:h-[72px]",
-          scrolled ? "max-w-[1440px] px-5 md:px-12" : "px-4 md:px-8",
-        )}
-      >
+      <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-10 px-4 md:h-[72px] md:px-8">
         <Link href="/" aria-label="Strata home" className="rounded-md">
           <Logo tone="dark" size={26} />
         </Link>

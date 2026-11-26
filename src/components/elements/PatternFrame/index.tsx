@@ -8,7 +8,8 @@ import clsx from "clsx";
  * pattern only ever shows as a frame around it, never under text.
  * - `hero`: container starts 72 px down (56 on phones), 16 px in from both
  *   sides, rounded top corners only, and runs to the bottom of the section
- *   so it flows into the page.
+ *   so it flows into the page. As the page scrolls, its dark fill grows to
+ *   cover the frame edge to edge (scope360-style; see useHeroProgress).
  * - `band`: closing CTA band. Container is rounded on all corners with
  *   pattern above and below it (W9).
  *
@@ -96,15 +97,13 @@ export function PatternFrame({
   return (
     <section aria-labelledby={labelledBy} className={clsx("relative overflow-hidden px-2 pt-14 md:px-4 md:pt-[72px]", className)}>
       <Pattern id={id} lit={heroLit} />
-      {above && <div className="absolute inset-x-0 top-0 z-[1] flex h-14 items-center justify-center px-4 md:h-[72px]">{above}</div>}
-      <div
-        className={clsx(
-          "relative rounded-t-[20px] bg-bg shadow-[inset_0_0_0_1px_rgba(255,255,255,0.06)] md:rounded-t-[24px]",
-          containerClassName,
-        )}
-      >
-        {children}
-      </div>
+      {above && (
+        <div className="hero-above absolute inset-x-0 top-0 z-[1] flex h-14 items-center justify-center px-4 md:h-[72px]">{above}</div>
+      )}
+      {/* The dark container's background. It grows to fill the frame on scroll
+          (.hero-fill in globals.css); the content stays put, so nothing shifts. */}
+      <div aria-hidden className="hero-fill" />
+      <div className={clsx("relative z-[3]", containerClassName)}>{children}</div>
     </section>
   );
 }
