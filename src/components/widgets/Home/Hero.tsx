@@ -1,26 +1,16 @@
 import Link from "next/link";
-import clsx from "clsx";
 import { PatternFrame } from "@/components/elements/PatternFrame";
-import { Btn, Chip, Mark, Tag, LogoTile, Lede, type Signal } from "@/components/elements/V2";
-import { V2Icons } from "@/components/icons/v2";
-import { hero, productWindow as win, type DecisionRow } from "@/constraints/home";
+import { Btn, Mark, Lede } from "@/components/elements/V2";
+import { Visual } from "@/components/elements/Visual";
+import { hero } from "@/constraints/home";
+import type { VisualSource } from "@/lib/visuals";
 
 /**
  * W1 · Hero. The cobalt pattern frames a dark container; the header
  * (Layout) sits at the top of it. Announcement pill over the pattern,
- * centred H1, lede, buttons, then the product window (decisions journal)
- * fading into W2.
+ * centred H1, lede, buttons, then the product window (decisions journal,
+ * an animated SVG) fading into W2.
  */
-
-const decisionTone: Record<DecisionRow["decision"], Signal> = {
-  Approved: "approved",
-  Review: "review",
-  Blocked: "blocked",
-};
-
-const riskTone = (r: DecisionRow) => (r.decision === "Review" ? "review" : "info");
-
-const cols = "grid grid-cols-[1.5fr_120px_100px_1.2fr_1fr_120px_80px_90px] items-center gap-3 px-5";
 
 function Announcement() {
   return (
@@ -40,78 +30,21 @@ function Announcement() {
   );
 }
 
-/** The decisions journal. Desktop layout inside a box that scrolls sideways (min-width 900). */
-function ProductWindow() {
+/**
+ * The decisions journal: src/visuals/hero-decisions.svg (rows rise in one
+ * by one). Phones: shown at 900 px in a box that scrolls sideways, cropped
+ * to the first rows and faded out.
+ */
+function ProductWindow({ source }: { source: VisualSource }) {
   return (
     <figure className="relative m-0 animate-rise motion-reduce:animate-none">
-      <figcaption className="sr-only">
-        Sample decisions table: each agent payment with its decision, time, merchant, amount, risk score and ledger entry.
-      </figcaption>
       <div
         tabIndex={0}
         role="region"
         aria-label="Sample decisions table (scrolls sideways)"
-        className="overflow-x-auto rounded-panel bg-surface-1 shadow-window md:overflow-hidden"
+        className="overflow-x-auto rounded-panel shadow-window md:overflow-hidden"
       >
-        <div className="min-w-[980px] md:min-w-[900px]" aria-hidden>
-          <div className="flex items-center gap-2 border-b border-line px-5 py-3.5">
-            <span className="flex h-8 items-center gap-2 rounded-button bg-surface-2 px-2.5 text-[13px] shadow-[inset_0_0_0_1px_var(--color-line)]">
-              <LogoTile size={18} />
-              {win.workspace}
-              <V2Icons.Down size={14} className="text-text-2" />
-            </span>
-            <span className="ml-auto flex h-8 items-center rounded-button bg-surface-2 px-2.5 text-[13px] text-text-2 shadow-[inset_0_0_0_1px_var(--color-line)]">
-              {win.date}
-            </span>
-            <span className="flex h-8 items-center gap-2 rounded-button bg-surface-2 px-2.5 text-[13px] text-text-2 shadow-[inset_0_0_0_1px_var(--color-line)]">
-              <V2Icons.Search size={14} /> Search
-            </span>
-            <span className="flex h-8 items-center gap-2 rounded-button bg-surface-2 px-2.5 text-[13px] text-text-2 shadow-[inset_0_0_0_1px_var(--color-line)]">
-              <V2Icons.Filter size={14} /> Filters
-            </span>
-          </div>
-          <div className="flex items-center gap-1 px-5 pb-3 pt-4">
-            <span className="mr-4 text-[16px] font-semibold">{win.title}</span>
-            {win.ranges.map((r, i) => (
-              <span key={r} className={clsx("rounded-chip px-2.5 py-1 text-[12px]", i === 0 ? "bg-surface-3 text-text-1" : "text-text-2")}>
-                {r}
-              </span>
-            ))}
-            <span className="ml-auto flex gap-2">
-              {win.totals.map((t) => (
-                <Chip key={t.label} tone={t.tone}>
-                  {t.label}
-                </Chip>
-              ))}
-            </span>
-          </div>
-          <div className={clsx(cols, "h-8 text-[12px] text-text-3")}>
-            {win.columns.map((c) => (
-              <span key={c} className={c === "Amount" ? "text-right" : undefined}>
-                {c}
-              </span>
-            ))}
-          </div>
-          {win.rows.map((r, i) => (
-            <div
-              key={r.ledger}
-              className={clsx(cols, "h-11 border-t border-line text-[13px]", i >= 4 && "max-md:hidden")}
-            >
-              <span className="truncate font-mono text-[12px] text-text-1">{r.agent}</span>
-              <Chip tone={decisionTone[r.decision]} className="justify-self-start">
-                {r.decision}
-              </Chip>
-              <span className="font-mono text-[12px] text-text-2">{r.time}</span>
-              <span>{r.merchant}</span>
-              <span className="text-text-2">{r.category}</span>
-              <span className="text-right font-mono">{r.amount}</span>
-              <Tag tone={riskTone(r)} className="justify-self-start">
-                {r.risk}
-              </Tag>
-              <span className="font-mono text-[12px] text-cobalt-pale">{r.ledger}</span>
-            </div>
-          ))}
-        </div>
+        <Visual source={source} playOnView={false} className="min-w-[900px] max-md:h-[420px] max-md:overflow-hidden" />
       </div>
       {/* Fade the table into the next section */}
       <div
@@ -122,7 +55,7 @@ function ProductWindow() {
   );
 }
 
-export default function Hero() {
+export default function Hero({ table }: { table: VisualSource }) {
   return (
     <PatternFrame id="home-hero" labelledBy="hero-title" above={<Announcement />}>
       <div className="flex flex-col items-center gap-6 px-5 pb-0 pt-[136px] text-center md:pt-[168px]">
@@ -144,7 +77,7 @@ export default function Hero() {
         </div>
       </div>
       <div className="mt-14 px-3 md:mt-[72px] md:px-[68px]">
-        <ProductWindow />
+        <ProductWindow source={table} />
       </div>
     </PatternFrame>
   );

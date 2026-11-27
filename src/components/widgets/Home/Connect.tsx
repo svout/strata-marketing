@@ -2,11 +2,13 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
 import clsx from "clsx";
-import { Btn, Chip, TwoTone, V2Section } from "@/components/elements/V2";
+import { Btn, TwoTone, V2Section } from "@/components/elements/V2";
+import { Visual } from "@/components/elements/Visual";
 import { Reveal } from "@/components/elements/V2/client";
 import { V2Icons } from "@/components/icons/v2";
 import { useInView } from "@/hooks/useInView";
 import { connect, type ConnectRail } from "@/constraints/home";
+import type { VisualSource } from "@/lib/visuals";
 
 /**
  * W2 · Connect. Eight payment-rail tiles, each with its label, joined to
@@ -15,9 +17,10 @@ import { connect, type ConnectRail } from "@/constraints/home";
  * Nothing moves on its own. Clicking a tile (or arrow keys, it's a tab
  * list) draws that rail's line from the tile down to the panel in the
  * rail's colour. When the line arrives, the panel lights up and its
- * content for that rail (heading, pitch, button and a sample card)
- * animates in. The first rail plays once when the section scrolls into
- * view. Reduced motion: everything just appears.
+ * content for that rail (heading, pitch, button and a sample card, an
+ * animated SVG from src/visuals) animates in. The first rail plays once
+ * when the section scrolls into view. Reduced motion: everything just
+ * appears.
  * Phones: tiles in a 4×2 grid, no lines, content animates in straight away.
  * Line timing: --draw-ms (0 on phones, 900 ms from md) on the wrapper.
  */
@@ -98,7 +101,7 @@ function Connector({ rails, active, prev, run }: { rails: readonly ConnectRail[]
 /** Fades and lifts in once the line has arrived; `i` staggers the pieces. */
 const step = (i: number) => ({ "--i": i }) as CSSProperties;
 
-function PanelContent({ rail }: { rail: ConnectRail }) {
+function PanelContent({ rail, card }: { rail: ConnectRail; card: VisualSource }) {
   return (
     <>
       <div className="relative flex flex-col justify-between gap-10">
@@ -118,40 +121,13 @@ function PanelContent({ rail }: { rail: ConnectRail }) {
         </div>
       </div>
 
-      <div
-        style={step(1)}
-        className="connect-in relative flex flex-col gap-1.5 self-end rounded-card bg-surface-2 p-5 shadow-[inset_0_0_0_1px_var(--color-line)]"
-      >
-        <div className="mb-1 flex items-center justify-between gap-3">
-          <p className="text-[15px] font-semibold">{rail.card.title}</p>
-          <span className="font-mono text-[11px] text-text-3">{connect.sample}</span>
-        </div>
-        <p className="truncate text-[12px] text-text-3">{rail.card.label}</p>
-        <ul className="flex flex-col gap-1">
-          {rail.card.rows.map((row, i) => {
-            const Icon = V2Icons[row.icon];
-            return (
-              <li key={row.name} style={step(2 + i)} className="connect-in flex items-center gap-3 rounded-button px-2.5 py-2 odd:bg-surface-3/60">
-                <Icon size={16} className="shrink-0 text-text-2" />
-                <span className="flex min-w-0 grow flex-col">
-                  <span className="text-[14px] md:truncate">{row.name}</span>
-                  <span className="font-mono text-[11.5px] text-text-2 md:truncate">{row.meta}</span>
-                </span>
-                <Chip tone={row.status.tone}>{row.status.label}</Chip>
-              </li>
-            );
-          })}
-          <li style={step(5)} className="connect-in flex items-center gap-3 px-2.5 py-2 text-[14px] text-text-2">
-            <V2Icons.Plus size={16} />
-            {rail.card.add}
-          </li>
-        </ul>
-      </div>
+      {/* Sample card: src/visuals/connect-<rail>.svg. Its rows rise in once the line has arrived. */}
+      <Visual source={card} start="var(--draw-ms)" className="w-full max-w-[440px] self-end" />
     </>
   );
 }
 
-export default function Connect() {
+export default function Connect({ cards }: { cards: VisualSource[] }) {
   const rails = connect.rails;
   const [active, setActive] = useState(0);
   const [viewRef, seen] = useInView<HTMLDivElement>(0.35, true);
@@ -259,7 +235,7 @@ export default function Connect() {
                 background: `radial-gradient(60% 100% at 50% 0%, ${rail.color}24 0%, transparent 70%), linear-gradient(90deg, transparent 15%, ${rail.color} 50%, transparent 85%) top / 100% 1px no-repeat`,
               }}
             />
-            <PanelContent key={`content-${run}`} rail={rail} />
+            <PanelContent key={`content-${run}`} rail={rail} card={cards[active]} />
           </div>
         </div>
       </Reveal>

@@ -60,6 +60,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-GB" className={`${GeistSans.variable} ${GeistMono.variable} ${wordmark.variable}`}>
       <body>
+        {/* Without JavaScript nothing marks the animated SVGs as seen, so let them play */}
+        <noscript>
+          <style>{".visual-paused .v-a,.visual-paused .v-dot{animation-play-state:running}"}</style>
+        </noscript>
         <Providers>{children}</Providers>
         <JsonLd data={[organizationSchema(), websiteSchema()]} />
       </body>
